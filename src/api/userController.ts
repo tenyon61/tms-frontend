@@ -30,7 +30,7 @@ export async function deleteUser(body: API.DeleteRequest, options?: { [key: stri
 export async function getUserById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getUserByIdParams,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseUser>('/api/user/get', {
     method: 'GET',
@@ -45,7 +45,7 @@ export async function getUserById(
 export async function getUserVoById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getUserVOByIdParams,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseUserVO>('/api/user/getVO', {
     method: 'GET',
@@ -71,7 +71,7 @@ export async function listUserByPage(body: API.UserQueryRequest, options?: { [ke
 /** 分页获取用户封装列表（仅管理员） POST /api/user/listPageVO */
 export async function listUserVoByPage(
   body: API.UserQueryRequest,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponsePageUserVO>('/api/user/listPageVO', {
     method: 'POST',
@@ -98,7 +98,7 @@ export async function updateUser(body: API.UserUpdateRequest, options?: { [key: 
 /** 更新个人信息 POST /api/user/updateMy */
 export async function updateMyUser(
   body: API.UserUpdateMyRequest,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseBoolean>('/api/user/updateMy', {
     method: 'POST',

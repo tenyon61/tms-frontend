@@ -1,11 +1,13 @@
 <template>
-  <div id="app">
-    <basic-layout></basic-layout>
-  </div>
+  <a-config-provider :theme="appStore.theme">
+    <router-view />
+  </a-config-provider>
 </template>
 
 <script lang="ts" setup>
-import BasicLayout from '@/layouts/BasicLayout.vue'
+import { useAppStore } from '@/store/appStore.ts'
+
+const appStore = useAppStore()
 </script>
 
-<style scoped></style>
+<style scoped lang="scss"></style>
