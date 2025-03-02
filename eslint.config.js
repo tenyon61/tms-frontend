@@ -21,7 +21,8 @@ export default [
       'vue/multi-word-component-names': 'off', // 关闭 multi-word-component-names 规则
       '@typescript-eslint/no-explicit-any': 'off', // 关闭 no-explicit-any 规则
       '@typescript-eslint/ban-ts-comment': 'off', // 关闭 ban-ts-comment 规则
-      // '@typescript-eslint/no-unused-expressions':'off' // 关闭 no-unused-expressions 规则
+      '@typescript-eslint/no-unused-expressions': 'off', // 关闭 no-unused-expressions 规则
+      '@typescript-eslint/no-unused-vars': 'off', // @typescript-eslint/no-unused-vars 规则
     },
   },
 ]

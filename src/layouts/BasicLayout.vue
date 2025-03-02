@@ -1,47 +1,61 @@
 <template>
-  <div id="basic-layout">
-    <a-layout style="min-height: 100vh">
-      <a-layout-header>
-        <FoxHeader></FoxHeader>
+  <a-layout style="min-height: 100vh">
+    <a-layout-sider breakpoint="lg" @collapse="onCollapse" @breakpoint="onBreakpoint">
+      <menu-bar></menu-bar>
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-header :style="{ background: '#fff', padding: 0 }">
+        <basic-header></basic-header>
       </a-layout-header>
-      <a-layout-content class="content">
-        <router-view></router-view>
+      <a-layout-content :style="{ margin: '1px 16px 0' }">
+        <div :style="{ padding: '10px', background: '#fff', height: '100%' }">
+          <tabs></tabs>
+          <router-view></router-view>
+        </div>
       </a-layout-content>
-      <a-layout-footer class="footer">
-        <a href="https://tenyon.cn" target="_blank"></a>
-        UI BY Yovvis
+      <a-layout-footer style="text-align: center">
+        Ant Design ©2018 Created by Ant UED
       </a-layout-footer>
     </a-layout>
-  </div>
+  </a-layout>
 </template>
-
 <script lang="ts" setup>
-import FoxHeader from '@/components/layouts/FoxHeader.vue'
+import BasicHeader from '@/layouts/header/BasicHeader.vue'
+import MenuBar from '@/layouts/menu/MenuBar.vue'
+import Tabs from '@/layouts/tabs/Tabs.vue'
+
+const onCollapse = (collapsed: boolean, type: string) => {
+  console.log(collapsed, type)
+}
+
+const onBreakpoint = (broken: boolean) => {
+  console.log(broken)
+}
 </script>
-
 <style scoped lang="scss">
-#basic-layout {
-  header {
-    background-color: white;
-    margin-bottom: 16px;
-    color: unset;
-    padding-inline: 20px;
-  }
+#components-layout-demo-responsive .logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
 
-  .content {
-    padding: 20px;
-    margin-bottom: 20px;
-    background: linear-gradient(to right, #fefefe, #fff);
-  }
+.site-layout-sub-header-background {
+  background: #fff;
+}
 
-  .footer {
-    background-color: #efefef;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 16px;
-  }
+.site-layout-background {
+  background: #fff;
+}
+
+[data-theme='light'] .site-layout-sub-header-background {
+  background: #141414;
+}
+
+.ant-layout-sider {
+  background: #fff;
+}
+
+:deep(.ant-layout-sider-zero-width-trigger) {
+  background: #fa543c;
 }
 </style>

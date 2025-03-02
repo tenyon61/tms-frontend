@@ -1,12 +1,20 @@
 {
   "extends": "@tsconfig/node22/tsconfig.json",
-  "include": ["vite.config.*", "vitest.config.*", "plugins/**/*.ts", "scripts/**/*.ts"],
+  "include": [
+    "vite.config.*",
+    "vitest.config.*",
+    "plugins/**/*.ts",
+    "scripts/**/*.ts"
+  ],
   "compilerOptions": {
     "noEmit": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "types": ["node"],
+    // 持久化问题
+    "moduleResolution": "node",
+    "types": [
+      "node",
+    ],
     "composite": true
   }
 }

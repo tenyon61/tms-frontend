@@ -22,9 +22,9 @@ myAxios.interceptors.request.use(
 // Add a response interceptor
 myAxios.interceptors.response.use(
   function (response) {
-    // console.log("resp->",response)
+    // system.log("resp->",response)
     const { data } = response
-    // console.log('res->', data)
+    // system.log('res->', data)
     // 未登录
     if (data.code === 40100) {
       // 不是获取用户信息接口，或者不是登录页面，则跳转到登录页面

@@ -1,5 +1,10 @@
 // index.scss最先加载，然后是组件样式，最后是 variables.scss 作用于 scoped
-@use 'reset';
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
 
 /*滚动条美化*/
 .scrollbar::-webkit-scrollbar {

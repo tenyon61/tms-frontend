@@ -1,0 +1,97 @@
+<template>
+  <div class="basic-header">
+    <a-row :wrap="false">
+      <a-col flex="auto" class="flex items-center p-l">
+        <bread-crumb></bread-crumb>
+      </a-col>
+      <a-col flex="180px">
+        <a-space :size="16" class="justify-end flex-center">
+          <a class="color-black" href="https://github.com/tenyon61/cqbo-frontend" target="_blank">
+            <Icon icon="ri:question-line" width="2.0em"></Icon>
+          </a>
+          <a class="color-black" href=" https://github.com/tenyon61/cqbo-frontend" target="_blank">
+            <Icon icon="ri:github-fill" width="2.0em"></Icon>
+          </a>
+          <FScreen></FScreen>
+        </a-space>
+      </a-col>
+      <a-col flex="80px" class="m-l4">
+        <div v-if="userStore.loginUser.id">
+          <a-dropdown placement="bottom">
+            <a-avatar
+              :src="userStore.loginUser?.userAvatar ?? notLoginUser"
+              size="large"
+            ></a-avatar>
+            <template #overlay>
+              <a-menu>
+                <a-menu-item @click="doDropItemClick('profile')">
+                  <span>用户中心 </span>
+                </a-menu-item>
+                <a-menu-item @click="doDropItemClick('logout')">
+                  <span>退出登录 </span></a-menu-item
+                >
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </div>
+        <div v-else>
+          <a-button type="primary" href="/login">登录</a-button>
+        </div>
+      </a-col>
+    </a-row>
+  </div>
+</template>
+<script lang="ts" setup>
+import { useUserStore } from '@/store/userStore.ts'
+import notLoginUser from '@/assets/notLogin.png'
+import router from '@/router'
+import { logout } from '@/api/authController.ts'
+import { message } from 'ant-design-vue'
+import BreadCrumb from '@/layouts/header/BreadCrumb.vue'
+import { Icon } from '@iconify/vue'
+
+const userStore = useUserStore()
+onMounted(() => {
+  userStore.fetchLoginUser()
+})
+const doDropItemClick = async (key: string) => {
+  if (key === 'logout') {
+    const res = await logout()
+    if (res.data.code === 0) {
+      userStore.setLoginUser({
+        userName: '未登录',
+      })
+      message.success('退出登录成功')
+      await router.push('/login')
+    } else {
+      message.error('退出登录失败，' + res.data.message)
+    }
+  }
+  if (key === 'profile') {
+    router.push('/user/profile')
+  }
+}
+</script>
+<style scoped lang="scss">
+.basic-header {
+  .title-bar {
+    display: flex;
+    align-items: center;
+    .title {
+      color: black;
+      font-size: 18px;
+      margin-left: 16px;
+    }
+
+    .logo {
+      height: 48px;
+    }
+  }
+
+  :deep(.ant-space-item) {
+    svg {
+      vertical-align: middle;
+    }
+  }
+}
+</style>

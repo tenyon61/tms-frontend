@@ -1,18 +1,20 @@
 import type { RouteRecordRaw } from 'vue-router'
+import HomeView from '@/views/HomeView.vue'
 // 路由菜单
 export default [
   {
-    path: '/login',
-    component: () => import('@/pages/common/login.vue'),
+    path: '/',
+    component: HomeView,
     meta: {
-      title: '登录',
+      label: '主页',
+      icon: 'ant-design:home-outlined',
     },
   },
   {
-    path: '/:pathMatch(.*)',
+    path: '/login',
+    component: () => import('@/views/common/UserLogin.vue'),
     meta: {
-      title: '找不到页面',
+      title: '登录',
     },
-    component: () => import('@/pages/exception/error.vue'),
   },
 ] as Array<RouteRecordRaw>

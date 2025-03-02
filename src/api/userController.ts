@@ -2,9 +2,9 @@
 /* eslint-disable */
 import request from '@/request.ts'
 
-/** 创建用户 POST /api/user/add */
+/** 创建用户 POST /user/add */
 export async function addUser(body: API.UserAddRequest, options?: { [key: string]: any }) {
-  return request<API.BaseResponseLong>('/api/user/add', {
+  return request<API.BaseResponseLong>('/user/add', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -14,9 +14,9 @@ export async function addUser(body: API.UserAddRequest, options?: { [key: string
   })
 }
 
-/** 删除用户 POST /api/user/delete */
+/** 删除用户 POST /user/delete */
 export async function deleteUser(body: API.DeleteRequest, options?: { [key: string]: any }) {
-  return request<API.BaseResponseBoolean>('/api/user/delete', {
+  return request<API.BaseResponseBoolean>('/user/delete', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -26,13 +26,13 @@ export async function deleteUser(body: API.DeleteRequest, options?: { [key: stri
   })
 }
 
-/** 根据 id 获取用户（仅管理员） GET /api/user/get */
+/** 根据 id 获取用户（仅管理员） GET /user/get */
 export async function getUserById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getUserByIdParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseUser>('/api/user/get', {
+  return request<API.BaseResponseUser>('/user/get', {
     method: 'GET',
     params: {
       ...params,
@@ -41,13 +41,13 @@ export async function getUserById(
   })
 }
 
-/** 根据 id 获取包装类 GET /api/user/getVO */
+/** 根据 id 获取包装类 GET /user/getVO */
 export async function getUserVoById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getUserVOByIdParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseUserVO>('/api/user/getVO', {
+  return request<API.BaseResponseUserVO>('/user/getVO', {
     method: 'GET',
     params: {
       ...params,
@@ -56,9 +56,9 @@ export async function getUserVoById(
   })
 }
 
-/** 分页获取用户列表（仅管理员） POST /api/user/listPage */
+/** 分页获取用户列表（仅管理员） POST /user/listPage */
 export async function listUserByPage(body: API.UserQueryRequest, options?: { [key: string]: any }) {
-  return request<API.BaseResponsePageUser>('/api/user/listPage', {
+  return request<API.BaseResponsePageUser>('/user/listPage', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -68,12 +68,12 @@ export async function listUserByPage(body: API.UserQueryRequest, options?: { [ke
   })
 }
 
-/** 分页获取用户封装列表（仅管理员） POST /api/user/listPageVO */
+/** 分页获取用户封装列表（仅管理员） POST /user/listPageVO */
 export async function listUserVoByPage(
   body: API.UserQueryRequest,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponsePageUserVO>('/api/user/listPageVO', {
+  return request<API.BaseResponsePageUserVO>('/user/listPageVO', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -83,9 +83,9 @@ export async function listUserVoByPage(
   })
 }
 
-/** 更新用户 POST /api/user/update */
+/** 更新用户 POST /user/update */
 export async function updateUser(body: API.UserUpdateRequest, options?: { [key: string]: any }) {
-  return request<API.BaseResponseBoolean>('/api/user/update', {
+  return request<API.BaseResponseBoolean>('/user/update', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -95,12 +95,12 @@ export async function updateUser(body: API.UserUpdateRequest, options?: { [key: 
   })
 }
 
-/** 更新个人信息 POST /api/user/updateMy */
+/** 更新个人信息 POST /user/updateMy */
 export async function updateMyUser(
   body: API.UserUpdateMyRequest,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseBoolean>('/api/user/updateMy', {
+  return request<API.BaseResponseBoolean>('/user/updateMy', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

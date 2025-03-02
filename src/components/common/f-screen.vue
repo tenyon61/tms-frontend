@@ -1,10 +1,11 @@
 <template>
   <Icon
     v-if="isFullScreen"
-    icon="ant-design:fullscreen-exit-outlined"
+    icon="ri:fullscreen-exit-line"
+    width="2.0em"
     @click="toggleFullScreen"
   ></Icon>
-  <Icon v-else icon="ant-design:fullscreen-outlined" @click="toggleFullScreen"></Icon>
+  <Icon v-else icon="ri:fullscreen-line" width="2.0em" @click="toggleFullScreen"></Icon>
 </template>
 
 <script setup lang="ts">
