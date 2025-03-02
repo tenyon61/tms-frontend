@@ -32,7 +32,6 @@ const onEdit = (targetKey: any) => {
 const remove = (targetKey: string) => {
   // 首页不能关闭
   if (targetKey === '/dashboard/workplace') {
-    console.log('workplace')
     return
   }
   let lastIndex = 0
@@ -70,14 +69,12 @@ const setActiveKey = () => {
 watch(
   () => route.path,
   () => {
-    console.log(layoutStore.tabList)
     setActiveKey()
     addTab()
   },
 )
 onMounted(() => {
   setActiveKey()
-  addTab()
 })
 </script>
 
