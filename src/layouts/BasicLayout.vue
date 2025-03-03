@@ -27,10 +27,8 @@ import Tabs from '@/layouts/tabs/Tabs.vue'
 const onCollapse = (collapsed: boolean, type: string) => {
   console.log(collapsed, type)
 }
-
-const onBreakpoint = (broken: boolean) => {
-  console.log(broken)
-}
+// broken: boolean
+const onBreakpoint = () => {}
 </script>
 <style scoped lang="scss">
 #components-layout-demo-responsive .logo {

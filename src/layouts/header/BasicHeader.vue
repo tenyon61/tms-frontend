@@ -12,7 +12,7 @@
           <a class="color-black" href=" https://github.com/tenyon61/cqbo-frontend" target="_blank">
             <Icon icon="ri:github-fill" width="2.0em"></Icon>
           </a>
-          <FScreen></FScreen>
+          <SysScreen></SysScreen>
         </a-space>
       </a-col>
       <a-col flex="80px" class="m-l4">
