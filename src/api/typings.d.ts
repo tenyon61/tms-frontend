@@ -25,10 +25,18 @@ declare namespace API {
     message?: string
   }
 
-  type BaseResponsePageUser = {
+  type BaseResponsePageSysRole = {
     /** 响应代码 */
     code?: number
-    data?: PageUser
+    data?: PageSysRole
+    /** 响应消息 */
+    message?: string
+  }
+
+  type BaseResponsePageSysUser = {
+    /** 响应代码 */
+    code?: number
+    data?: PageSysUser
     /** 响应消息 */
     message?: string
   }
@@ -41,10 +49,10 @@ declare namespace API {
     message?: string
   }
 
-  type BaseResponseUser = {
+  type BaseResponseSysUser = {
     /** 响应代码 */
     code?: number
-    data?: User
+    data?: SysUser
     /** 响应消息 */
     message?: string
   }
@@ -96,14 +104,28 @@ declare namespace API {
     asc?: boolean
   }
 
-  type PageUser = {
-    records?: User[]
+  type PageSysRole = {
+    records?: SysRole[]
     total?: number
     size?: number
     current?: number
     orders?: OrderItem[]
-    optimizeCountSql?: PageUser
-    searchCount?: PageUser
+    optimizeCountSql?: PageSysRole
+    searchCount?: PageSysRole
+    optimizeJoinOfCountSql?: boolean
+    maxLimit?: number
+    countId?: string
+    pages?: number
+  }
+
+  type PageSysUser = {
+    records?: SysUser[]
+    total?: number
+    size?: number
+    current?: number
+    orders?: OrderItem[]
+    optimizeCountSql?: PageSysUser
+    searchCount?: PageSysUser
     optimizeJoinOfCountSql?: boolean
     maxLimit?: number
     countId?: string
@@ -124,22 +146,68 @@ declare namespace API {
     pages?: number
   }
 
-  type User = {
+  type RoleAddRequest = {
+    /** 角色名称 */
+    roleName?: string
+    /** 扩展字段 */
+    type?: string
+    /** 备注 */
+    remark?: string
+  }
+
+  type RoleQueryRequest = {
+    /** 当前页号 */
+    current?: number
+    /** 页面大小 */
+    pageSize?: number
+    /** 排序字段 */
+    sortField?: string
+    /** 默认升序 ascend/descend */
+    sortOrder?: string
+    /** id */
+    id?: number
+    /** 角色名称 */
+    roleName?: string
+    /** 扩展字段 */
+    type?: string
+    /** 备注 */
+    remark?: string
+  }
+
+  type RoleUpdateRequest = {
+    /** id */
+    id?: number
+    /** 角色名称 */
+    roleName?: string
+    /** 扩展字段 */
+    type?: string
+    /** 备注 */
+    remark?: string
+  }
+
+  type SysRole = {
+    id?: number
+    roleName?: string
+    type?: string
+    remark?: string
+    createTime?: string
+    updateTime?: string
+  }
+
+  type SysUser = {
     id?: number
     userAccount?: string
     userPassword?: string
-    unionId?: string
-    mpOpenId?: string
     userName?: string
     userAvatar?: string
     userProfile?: string
+    unionId?: string
+    mpOpenId?: string
+    phone?: string
+    email?: string
+    sex?: number
     userRole?: string
-    vipNumber?: number
-    vipCode?: string
-    vipExpireTime?: string
-    shareCode?: string
-    inviteUser?: number
-    editTime?: string
+    status?: number
     createTime?: string
     updateTime?: string
     isDelete?: number

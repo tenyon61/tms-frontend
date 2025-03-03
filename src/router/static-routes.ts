@@ -17,4 +17,11 @@ export default [
       title: '登录',
     },
   },
+  {
+    path: '/register',
+    component: () => import('@/views/common/UserRegister.vue'),
+    meta: {
+      title: '登录',
+    },
+  },
 ] as Array<RouteRecordRaw>
