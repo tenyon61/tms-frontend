@@ -7,7 +7,12 @@
       @tabClick="tabClick"
       @edit="onEdit"
     >
-      <a-tab-pane v-for="pane in panes" :key="pane.path" :tab="pane.label"></a-tab-pane>
+      <a-tab-pane
+        v-for="pane in panes"
+        :key="pane.path"
+        :tab="pane.label"
+        :closable="pane.closable"
+      ></a-tab-pane>
     </a-tabs>
   </template>
 </template>
@@ -31,9 +36,7 @@ const onEdit = (targetKey: any) => {
 }
 const remove = (targetKey: string) => {
   // 首页不能关闭
-  if (targetKey === '/dashboard/workplace') {
-    return
-  }
+  if (targetKey === '/dashboard/workplace') return
   let lastIndex = 0
   layoutStore.tabList.forEach((pane, i) => {
     if (pane.path === targetKey) {
@@ -57,9 +60,11 @@ const tabClick = (key: any) => {
 }
 const addTab = () => {
   const { path, meta } = route
+  if (path === '/dashboard/workplace') return
   const tab: Tab = {
     path: path,
     label: meta.label as string,
+    closable: true,
   }
   layoutStore.addTab(tab)
 }
@@ -75,6 +80,7 @@ watch(
 )
 onMounted(() => {
   setActiveKey()
+  addTab()
 })
 </script>
 
