@@ -24,9 +24,8 @@ import BasicHeader from '@/layouts/header/BasicHeader.vue'
 import MenuBar from '@/layouts/menu/MenuBar.vue'
 import Tabs from '@/layouts/tabs/Tabs.vue'
 
-const onCollapse = (collapsed: boolean, type: string) => {
-  console.log(collapsed, type)
-}
+// collapsed: boolean, type: string
+const onCollapse = () => {}
 // broken: boolean
 const onBreakpoint = () => {}
 </script>

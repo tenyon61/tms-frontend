@@ -15,7 +15,6 @@ export const useLayoutStore = defineStore(
   () => {
     const tabList = ref<Tab[]>([{ path: '/dashboard/workplace', label: '工作台', closable: false }])
     const addTab = (tab: Tab) => {
-      console.log('pinia中', tabList)
       if (tabList.value.some((item) => item.path === tab.path)) return
       tabList.value.push(tab)
     }
