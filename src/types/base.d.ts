@@ -1,4 +1,4 @@
-declare namespace Base {
+declare namespace BASE {
   type SysModal = {
     open: boolean
     title?: string

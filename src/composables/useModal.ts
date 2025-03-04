@@ -1,5 +1,5 @@
 export default function useModal() {
-  const modal = reactive<Base.SysModal>({
+  const modal = reactive<BASE.SysModal>({
     open: false,
     title: '',
     width: 630,
