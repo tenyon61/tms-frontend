@@ -1,6 +1,6 @@
 import router from '@/router'
 import { useUserStore } from '@/store/userStore.ts'
-import { ACCESS_ENUM } from '@/type/baseEnum.ts'
+import ACCESS_ENUM from '@/type/baseEnum.ts'
 import checkAccess from '@/composables/access/checkAccess.ts'
 
 // 进入页面前，进行权限校验

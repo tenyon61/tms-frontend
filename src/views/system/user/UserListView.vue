@@ -60,7 +60,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { deleteUser, listUserVoByPage } from '@/api/userController.ts'
 import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
-import { ACCESS_ENUM } from '@/type/baseEnum.ts'
+import ACCESS_ENUM from '@/type/baseEnum.ts'
 
 // ~搜索表单
 const searchParams = reactive<API.UserQueryRequest>({
