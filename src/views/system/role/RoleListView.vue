@@ -1,12 +1,20 @@
 <template>
   <div class="roleList">
-    <!-- ~searchForm -->
+    <!-- 搜索表单 -->
     <a-form layout="inline" :model="searchParams">
       <a-form-item label="角色名称">
-        <a-input v-model:value="searchParams.roleName" placeholder="请输入角色名称"></a-input>
+        <a-input
+          v-model:value="searchParams.roleName"
+          placeholder="请输入角色名称"
+          allow-clear
+        ></a-input>
       </a-form-item>
       <a-form-item label="扩展字段">
-        <a-input v-model:value="searchParams.type" placeholder="请输入扩展字段"></a-input>
+        <a-input
+          v-model:value="searchParams.type"
+          placeholder="请输入扩展字段"
+          allow-clear
+        ></a-input>
       </a-form-item>
       <a-space>
         <a-button class="flex-center" @click="doSearch">
@@ -24,7 +32,7 @@
       </a-space>
     </a-form>
     <div style="margin-bottom: 15px" />
-    <!-- ~dataGrid-->
+    <!-- 数据列表-->
     <a-table
       :data-source="dataGrid"
       :columns="columns"
@@ -44,12 +52,13 @@
         </template>
         <template v-else-if="column.key === 'action'">
           <a-space class="flex-center">
+            <div class="i-ri:edit-box-line color-blue" @click="doEdit(record.id)"></div>
             <div class="i-ri:delete-bin-6-line color-red" @click="doDelete(record.id)"></div>
           </a-space>
         </template>
       </template>
     </a-table>
-    <!-- ~addMoadl -->
+    <!-- 新增弹窗 -->
     <sys-modal
       :open="modal.open"
       :title="modal.title"
@@ -82,7 +91,7 @@ import dayjs from 'dayjs'
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
-// ~searchForm
+// region搜索表单
 const searchParams = reactive<API.RoleQueryRequest>({
   current: 1,
   pageSize: 10,
@@ -94,7 +103,9 @@ const doSearch = () => {
   fetchData()
 }
 const doRest = () => {}
-// ~addModal
+// endregion
+
+// region 新增弹窗
 const formRef = ref()
 const doAdd = () => {
   modal.title = '新增'
@@ -127,7 +138,9 @@ const confirm = () => {
     .catch(() => {})
     .finally(() => fetchData())
 }
-// ~datagrid
+// endregion
+
+// region 数据列表
 const dataGrid = ref<API.SysRole[]>([])
 const total = ref<number>(0)
 const pagination = computed(() => {
@@ -144,6 +157,8 @@ const fetchData = async () => {
     if (res.data.code === 0 && res.data.data) {
       dataGrid.value = res.data.data.records ?? []
       total.value = Number(res.data.data.total) ?? 0
+    } else {
+      message.error('获取数据失败，' + res.data.message)
     }
   })
 }
@@ -156,28 +171,36 @@ const doDelete = async (id: any) => {
   if (!id) {
     return
   }
-  await deleteRole(id).then((res) => {
+  await deleteRole({ id }).then((res) => {
     if (res.data.code === 0) {
       message.success('删除成功！')
       fetchData()
     } else {
-      message.error(res.data.message)
+      message.error('删除失败')
     }
   })
 }
+const doEdit = async (id: any) => {
+  if (!id) {
+    return
+  }
+}
+
+// endregion
 const columns = [
   {
     title: '角色名称',
     dataIndex: 'roleName',
     key: 'roleName',
     align: 'center',
+    width: 180,
   },
   {
     title: '扩展字段',
     dataIndex: 'type',
     key: 'type',
     align: 'center',
-    width: 180,
+    ellipsis: true,
   },
   {
     title: '创建时间',

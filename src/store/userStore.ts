@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import ACCESS_ENUM from '@/composables/access/accessEnum.ts'
+import { ACCESS_ENUM } from '@/type/baseEnum.ts'
 import { getLoginUser } from '@/api/authController.ts'
 
 export const useUserStore = defineStore('userStore', () => {
