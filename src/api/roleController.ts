@@ -27,7 +27,7 @@ export async function deleteRole(body: API.DeleteRequest, options?: { [key: stri
 }
 
 /** 分页获取角色 POST /api/role/listPage */
-export async function listUserByPage(body: API.RoleQueryRequest, options?: { [key: string]: any }) {
+export async function listRoleByPage(body: API.RoleQueryRequest, options?: { [key: string]: any }) {
   return request<API.BaseResponsePageSysRole>('/api/role/listPage', {
     method: 'POST',
     headers: {

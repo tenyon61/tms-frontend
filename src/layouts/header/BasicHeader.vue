@@ -6,10 +6,14 @@
       </a-col>
       <a-col flex="180px">
         <a-space :size="16" class="justify-end flex-center">
-          <a class="color-black" href="https://github.com/tenyon61/cqbo-frontend" target="_blank">
+          <a
+            class="color-black"
+            href="https://github.com/tenyon61/cqbo-frontend/issues"
+            target="_blank"
+          >
             <Icon icon="ri:question-line" width="2.0em"></Icon>
           </a>
-          <a class="color-black" href=" https://github.com/tenyon61/cqbo-frontend" target="_blank">
+          <a class="color-black" href="https://github.com/tenyon61/cqbo-frontend" target="_blank">
             <Icon icon="ri:github-fill" width="2.0em"></Icon>
           </a>
           <SysScreen></SysScreen>

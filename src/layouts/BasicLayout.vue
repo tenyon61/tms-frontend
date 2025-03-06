@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="min-height: 100vh">
+  <a-layout style="height: 100vh">
     <a-layout-sider breakpoint="lg" @collapse="onCollapse" @breakpoint="onBreakpoint">
       <menu-bar></menu-bar>
     </a-layout-sider>

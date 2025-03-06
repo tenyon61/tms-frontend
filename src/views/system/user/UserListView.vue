@@ -15,8 +15,9 @@
     <div style="margin-bottom: 16px" />
     <!-- 表格 -->
     <a-table
+      :data-source="dataGrid"
       :columns="columns"
-      :data-source="dataList"
+      :table-layout="'fixed'"
       :pagination="pagination"
       @change="doTableChange"
     >
@@ -44,66 +45,21 @@ import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import ACCESS_ENUM from '@/composables/access/accessEnum.ts'
 
-const columns = [
-  {
-    title: 'id',
-    dataIndex: 'id',
-  },
-  {
-    title: '账号',
-    dataIndex: 'userAccount',
-  },
-  {
-    title: '用户名',
-    dataIndex: 'userName',
-  },
-  {
-    title: '头像',
-    dataIndex: 'userAvatar',
-  },
-  {
-    title: '简介',
-    dataIndex: 'userProfile',
-  },
-  {
-    title: '用户角色',
-    dataIndex: 'userRole',
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
-  },
-  {
-    title: '操作',
-    key: 'action',
-  },
-]
-
-const roleColors = reactive({
-  [ACCESS_ENUM.ADMIN]: 'green',
-  [ACCESS_ENUM.USER]: 'blue',
-  [ACCESS_ENUM.VIP]: 'orange',
-  [ACCESS_ENUM.SVIP]: 'red',
-})
-
-const roleLabels = reactive({
-  [ACCESS_ENUM.ADMIN]: '管理员',
-  [ACCESS_ENUM.USER]: '普通用户',
-  [ACCESS_ENUM.VIP]: '会员',
-  [ACCESS_ENUM.SVIP]: '超级会员',
-})
-
-// 定义数据
-const dataList = ref<API.UserVO[]>([])
-const total = ref(0)
-
-// 搜索条件
+// ~searchForm
 const searchParams = reactive<API.UserQueryRequest>({
   current: 1,
   pageSize: 10,
   sortField: 'createTime',
   sortOrder: 'ascend',
 })
+const doSearch = () => {
+  searchParams.current = 1
+  fetchData()
+}
+const doRest = () => {}
+// ~datagrid
+const dataGrid = ref<API.UserVO[]>([])
+const total = ref(0)
 
 // 获取数据
 const fetchData = async () => {
@@ -134,17 +90,9 @@ const pagination = computed(() => {
   }
 })
 
-// 表格变化之后，重新获取数据
 const doTableChange = (page: any) => {
   searchParams.current = page.current
   searchParams.pageSize = page.pageSize
-  fetchData()
-}
-
-// 搜索数据
-const doSearch = () => {
-  // 重置页码
-  searchParams.current = 1
   fetchData()
 }
 
@@ -162,4 +110,61 @@ const doDelete = async (id: any) => {
     message.error('删除失败')
   }
 }
+
+const columns = [
+  {
+    title: 'id',
+    dataIndex: 'id',
+    key: 'id',
+  },
+  {
+    title: '账号',
+    dataIndex: 'userAccount',
+    key: 'userAccount',
+  },
+  {
+    title: '用户名',
+    dataIndex: 'userName',
+    key: 'userName',
+  },
+  {
+    title: '头像',
+    dataIndex: 'userAvatar',
+    key: 'userAvatar',
+  },
+  {
+    title: '简介',
+    dataIndex: 'userProfile',
+    key: 'userProfile',
+  },
+  {
+    title: '用户角色',
+    dataIndex: 'userRole',
+    key: 'userRole',
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    key: 'createTime',
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    key: 'action',
+  },
+]
+
+const roleColors = reactive({
+  [ACCESS_ENUM.ADMIN]: 'green',
+  [ACCESS_ENUM.USER]: 'blue',
+  [ACCESS_ENUM.VIP]: 'orange',
+  [ACCESS_ENUM.SVIP]: 'red',
+})
+
+const roleLabels = reactive({
+  [ACCESS_ENUM.ADMIN]: '管理员',
+  [ACCESS_ENUM.USER]: '普通用户',
+  [ACCESS_ENUM.VIP]: '会员',
+  [ACCESS_ENUM.SVIP]: '超级会员',
+})
 </script>

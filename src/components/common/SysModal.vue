@@ -37,7 +37,7 @@ watch(
     innerOpen.value = val
   },
 )
-const emit = defineEmits(['handleCancel', 'handleOk'])
+const emit = defineEmits(['handleCancel', 'handleOk', 'showModal'])
 
 const handleCancel = () => {
   emit('handleCancel')

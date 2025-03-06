@@ -3,10 +3,10 @@
     <!-- ~searchForm -->
     <a-form layout="inline" :model="searchParams">
       <a-form-item label="角色名称">
-        <a-input placeholder="请输入角色名称"></a-input>
+        <a-input v-model:value="searchParams.roleName" placeholder="请输入角色名称"></a-input>
       </a-form-item>
       <a-form-item label="扩展字段">
-        <a-input placeholder="请输入扩展字段"></a-input>
+        <a-input v-model:value="searchParams.type" placeholder="请输入扩展字段"></a-input>
       </a-form-item>
       <a-space>
         <a-button class="flex-center" @click="doSearch">
@@ -23,6 +23,32 @@
         </a-button>
       </a-space>
     </a-form>
+    <div style="margin-bottom: 15px" />
+    <!-- ~dataGrid-->
+    <a-table
+      :data-source="dataGrid"
+      :columns="columns"
+      :table-layout="'fixed'"
+      :pagination="pagination"
+      :scroll="{ y: 600 }"
+      @change="doTableChange"
+      size="middle"
+      bordered
+    >
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'createTime'">
+          {{ dayjs(record.createTime).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+        <template v-if="column.dataIndex === 'updateTime'">
+          {{ dayjs(record.updateTime).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+        <template v-else-if="column.key === 'action'">
+          <a-space class="flex-center">
+            <div class="i-ri:delete-bin-6-line color-red" @click="doDelete(record.id)"></div>
+          </a-space>
+        </template>
+      </template>
+    </a-table>
     <!-- ~addMoadl -->
     <sys-modal
       :open="modal.open"
@@ -47,24 +73,35 @@
 </template>
 
 <script setup lang="ts">
-import useModal from '@/composables/useModal.ts'
+import useModal from '@/composables/modal/useModal.ts'
 import { Rule } from 'ant-design-vue/es/form'
-import { addRole } from '@/api/roleController.ts'
+import { addRole, deleteRole, listRoleByPage } from '@/api/roleController.ts'
 import { message } from 'ant-design-vue'
+import { computed } from 'vue'
+import dayjs from 'dayjs'
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
-const formRef = ref()
-const searchParams = ref([])
+
 // ~searchForm
-const doSearch = () => {}
+const searchParams = reactive<API.RoleQueryRequest>({
+  current: 1,
+  pageSize: 10,
+  sortField: 'createTime',
+  sortOrder: 'ascend',
+})
+const doSearch = () => {
+  searchParams.current = 1
+  fetchData()
+}
 const doRest = () => {}
+// ~addModal
+const formRef = ref()
 const doAdd = () => {
   modal.title = '新增'
   modal.width = 460
   modal.height = 160
   showModal()
 }
-// ~addModal
 const formState = reactive(<API.RoleAddRequest>{
   roleName: '',
   remark: '',
@@ -80,11 +117,93 @@ const confirm = () => {
       await addRole(data).then((res) => {
         if (res.data.code === 0) {
           message.success('保存成功！')
+          formRef.value.resetFields()
+          handleOk()
+        } else {
+          message.error(res.data.message)
         }
       })
     })
     .catch(() => {})
+    .finally(() => fetchData())
 }
+// ~datagrid
+const dataGrid = ref<API.SysRole[]>([])
+const total = ref<number>(0)
+const pagination = computed(() => {
+  return {
+    current: searchParams.current,
+    pageSize: searchParams.pageSize,
+    total: total.value,
+    showSizeChanger: true,
+    showTotal: (total: number) => `共 ${total} 条`,
+  }
+})
+const fetchData = async () => {
+  await listRoleByPage({ ...searchParams }).then((res) => {
+    if (res.data.code === 0 && res.data.data) {
+      dataGrid.value = res.data.data.records ?? []
+      total.value = Number(res.data.data.total) ?? 0
+    }
+  })
+}
+const doTableChange = (page: any) => {
+  searchParams.current = page.current
+  searchParams.pageSize = page.pageSize
+  fetchData()
+}
+const doDelete = async (id: any) => {
+  if (!id) {
+    return
+  }
+  await deleteRole(id).then((res) => {
+    if (res.data.code === 0) {
+      message.success('删除成功！')
+      fetchData()
+    } else {
+      message.error(res.data.message)
+    }
+  })
+}
+const columns = [
+  {
+    title: '角色名称',
+    dataIndex: 'roleName',
+    key: 'roleName',
+    align: 'center',
+  },
+  {
+    title: '扩展字段',
+    dataIndex: 'type',
+    key: 'type',
+    align: 'center',
+    width: 180,
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    key: 'createTime',
+    align: 'center',
+    width: 180,
+  },
+  {
+    title: '更新时间',
+    dataIndex: 'updateTime',
+    key: 'updateTime',
+    align: 'center',
+    width: 180,
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    key: 'action',
+    align: 'center',
+    width: 180,
+  },
+] as any[]
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <style scoped lang="scss"></style>

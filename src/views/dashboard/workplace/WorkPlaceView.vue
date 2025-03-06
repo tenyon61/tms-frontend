@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import useModal from '@/composables/useModal.ts'
+import useModal from '@/composables/modal/useModal.ts'
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
