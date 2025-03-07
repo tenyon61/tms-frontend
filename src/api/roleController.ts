@@ -1,5 +1,5 @@
 // @ts-ignore
-
+/* eslint-disable */
 import request from '@/request.ts'
 
 /** 添加角色 POST /api/role/add */

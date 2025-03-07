@@ -1,7 +1,7 @@
 <template>
   <div class="roleList">
     <!-- 搜索表单 -->
-    <a-form ref="searchRef" layout="inline" :model="searchParams">
+    <a-form ref="searchRef" layout="inline" :model="searchParams" :style="{}">
       <a-form-item name="roleName" label="角色名称">
         <a-input
           v-model:value="searchParams.roleName"
@@ -75,7 +75,7 @@
           <a-form-item name="roleName" label="角色名称" :label-col="{ span: 6 }">
             <a-input v-model:value="formState.roleName" placeholder="请填写角色名称"></a-input>
           </a-form-item>
-          <a-form-item name="type" label="角色名称" :label-col="{ span: 6 }">
+          <a-form-item name="type" label="扩展字段" :label-col="{ span: 6 }">
             <a-input v-model:value="formState.type" placeholder="请填写扩展字段"></a-input>
           </a-form-item>
           <a-form-item name="remark" label="备注" :label-col="{ span: 6 }">
@@ -112,6 +112,7 @@ const doSearch = () => {
 }
 const doRest = () => {
   searchRef.value.resetFields()
+  fetchData()
 }
 // endregion
 
@@ -236,21 +237,21 @@ const columns = [
     dataIndex: 'createTime',
     key: 'createTime',
     align: 'center',
-    width: 180,
+    width: 160,
   },
   {
     title: '更新时间',
     dataIndex: 'updateTime',
     key: 'updateTime',
     align: 'center',
-    width: 180,
+    width: 160,
   },
   {
     title: '操作',
     dataIndex: 'action',
     key: 'action',
     align: 'center',
-    width: 180,
+    width: 160,
   },
 ] as any[]
 onMounted(() => {

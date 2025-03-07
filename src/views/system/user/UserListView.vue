@@ -72,14 +72,39 @@
     >
       <template #content>
         <a-form ref="formRef" label-align="right" :model="formState" :rules="rules">
-          <a-form-item name="roleName" label="用户账号" :label-col="{ span: 6 }">
-            <a-input v-model:value="formState.userAccount" placeholder="请填写用户账号"></a-input>
-          </a-form-item>
-          <a-form-item name="type" label="用户名称" :label-col="{ span: 6 }">
-            <a-input v-model:value="formState.userName" placeholder="请填写用户名称"></a-input>
-          </a-form-item>
-          <a-form-item name="remark" label="用户角色" :label-col="{ span: 6 }">
-            <a-input v-model:value="formState.userRole" placeholder="请选择用户角色"></a-input>
+          <a-row>
+            <a-col :span="12" :offset="0">
+              <a-form-item name="userAccount" label="账号" :label-col="{ span: 8 }">
+                <a-input
+                  v-model:value="formState.userAccount"
+                  :disabled="tags == '1'"
+                  placeholder="请填写用户账号"
+                ></a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" :offset="0">
+              <a-form-item name="userName" label="姓名" :label-col="{ span: 8 }">
+                <a-input v-model:value="formState.userName" placeholder="请填写用户姓名"></a-input>
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row>
+            <a-col :span="12">
+              <a-form-item name="sex" label="性别" :label-col="{ span: 8 }">
+                <a-radio-group v-model:value="formState.sex">
+                  <a-radio :value="0">男</a-radio>
+                  <a-radio :value="1">女</a-radio>
+                </a-radio-group>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item name="email" label="邮箱" :label-col="{ span: 8 }">
+                <a-input v-model:value="formState.email" placeholder="请输入邮箱"></a-input>
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-form-item name="phone" label="电话号码" :label-col="{ span: 4 }">
+            <a-input v-model:value="formState.phone" placeholder="请输入电话号码"></a-input>
           </a-form-item>
         </a-form>
       </template>
@@ -113,6 +138,7 @@ const doSearch = () => {
 }
 const doRest = () => {
   searchRef.value.resetFields()
+  fetchData()
 }
 // endregion
 
@@ -121,28 +147,33 @@ const tags = ref('')
 const formRef = ref()
 const formState = reactive(<API.UserAddRequest | API.UserUpdateRequest>{
   id: '',
-  userName: '',
   userAccount: '',
-  userRole: '',
+  userName: '',
+  sex: 1,
+  email: '',
+  phone: '',
 })
 const doAdd = () => {
   tags.value = '0'
   modal.title = '新增'
-  modal.width = 460
-  modal.height = 500
+  modal.width = 600
+  modal.height = 180
   showModal()
 }
 const doEdit = async (record: API.SysRole) => {
   tags.value = '1'
   modal.title = '修改'
-  modal.width = 460
-  modal.height = 500
+  modal.width = 600
+  modal.height = 180
   showModal()
   Object.assign(formState, record)
 }
 const rules: Record<string, Rule[]> = {
   userAccount: [{ required: true, message: '用户账号不能为空' }],
   userName: [{ required: true, message: '用户名称不能为空' }],
+  email: [{ type: 'email', message: '请输入正确的邮箱' }],
+  sex: [{ type: 'enum', enum: [0, 1] }],
+  phone: [{ pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码' }],
 }
 const confirm = () => {
   formRef.value
@@ -226,25 +257,48 @@ const columns = [
     key: 'id',
     align: 'center',
     width: 180,
+    ellipsis: true,
   },
   {
     title: '账号',
     dataIndex: 'userAccount',
     key: 'userAccount',
     align: 'center',
-    width: 160,
+    width: 120,
   },
   {
     title: '用户名',
     dataIndex: 'userName',
     key: 'userName',
     align: 'center',
-    width: 180,
+    width: 140,
+    ellipsis: true,
+  },
+  {
+    title: '性别',
+    dataIndex: 'sex',
+    key: 'sex',
+    align: 'center',
+    width: 80,
   },
   {
     title: '头像',
     dataIndex: 'userAvatar',
     key: 'userAvatar',
+    align: 'center',
+    width: 90,
+  },
+  {
+    title: '邮箱',
+    dataIndex: 'email',
+    key: 'email',
+    align: 'center',
+    width: 160,
+  },
+  {
+    title: '手机号码',
+    dataIndex: 'phone',
+    key: 'phone',
     align: 'center',
     width: 120,
   },
@@ -256,25 +310,25 @@ const columns = [
     ellipsis: true,
   },
   {
-    title: '用户角色',
+    title: '角色',
     dataIndex: 'userRole',
     key: 'userRole',
     align: 'center',
-    width: 120,
+    width: 80,
   },
   {
     title: '创建时间',
     dataIndex: 'createTime',
     key: 'createTime',
     align: 'center',
-    width: 180,
+    width: 160,
   },
   {
     title: '操作',
     dataIndex: 'action',
     key: 'action',
     align: 'center',
-    width: 180,
+    width: 160,
   },
 ] as any[]
 

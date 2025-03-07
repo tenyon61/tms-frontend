@@ -19,7 +19,8 @@
         <router-view></router-view>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
-        Ant Design ©2018 Created by Ant UED
+        Design ©{{ new Date().getFullYear() }} Created by
+        <a href="https://tenyon.cn" target="_blank" class="color-red">tenyon</a>
       </a-layout-footer>
     </a-layout>
   </a-layout>

@@ -214,14 +214,16 @@ declare namespace API {
   }
 
   type UserAddRequest = {
-    /** 用户昵称 */
-    userName?: string
     /** 账号 */
     userAccount?: string
-    /** 用户头像 */
-    userAvatar?: string
-    /** 用户角色 */
-    userRole?: string
+    /** 用户昵称 */
+    userName?: string
+    /** 性别 */
+    sex?: number
+    /** 邮箱 */
+    email?: string
+    /** 手机号 */
+    phone?: string
   }
 
   type UserLoginRequest = {
@@ -246,10 +248,12 @@ declare namespace API {
     userName?: string
     /** 用户账号 */
     userAccount?: string
+    /** 邮箱 */
+    email?: string
+    /** 手机号 */
+    phone?: string
     /** 简介 */
     userProfile?: string
-    /** 用户角色 */
-    userRole?: string
   }
 
   type UserRegisterRequest = {
@@ -262,25 +266,35 @@ declare namespace API {
   }
 
   type UserUpdateMyRequest = {
+    /** 账号 */
+    userAccount?: string
     /** 用户昵称 */
     userName?: string
     /** 用户头像 */
     userAvatar?: string
     /** 简介 */
     userProfile?: string
+    /** 性别 */
+    sex?: number
+    /** 邮箱 */
+    email?: string
+    /** 手机号 */
+    phone?: string
   }
 
   type UserUpdateRequest = {
     /** id */
     id?: number
+    /** 账号 */
+    userAccount?: string
     /** 用户昵称 */
     userName?: string
-    /** 用户头像 */
-    userAvatar?: string
-    /** 简介 */
-    userProfile?: string
-    /** 用户角色 */
-    userRole?: string
+    /** 性别 */
+    sex?: number
+    /** 邮箱 */
+    email?: string
+    /** 手机号 */
+    phone?: string
   }
 
   type UserVO = {
@@ -292,10 +306,16 @@ declare namespace API {
     userName?: string
     /** 用户头像 */
     userAvatar?: string
+    /** 性别 */
+    sex?: string
     /** 用户简介 */
     userProfile?: string
     /** 用户角色 */
     userRole?: string
+    /** 用户邮箱 */
+    email?: string
+    /** 手机号码 */
+    phone?: string
     /** 创建时间 */
     createTime?: string
   }
