@@ -1,15 +1,15 @@
 <template>
   <div class="roleList">
     <!-- 搜索表单 -->
-    <a-form layout="inline" :model="searchParams">
-      <a-form-item label="角色名称">
+    <a-form ref="searchRef" layout="inline" :model="searchParams">
+      <a-form-item name="roleName" label="角色名称">
         <a-input
           v-model:value="searchParams.roleName"
           placeholder="请输入角色名称"
           allow-clear
         ></a-input>
       </a-form-item>
-      <a-form-item label="扩展字段">
+      <a-form-item name="type" label="扩展字段">
         <a-input
           v-model:value="searchParams.type"
           placeholder="请输入扩展字段"
@@ -38,12 +38,15 @@
       :columns="columns"
       :table-layout="'fixed'"
       :pagination="pagination"
-      :scroll="{ y: 600 }"
+      :scroll="{ y: tableHeight }"
       @change="doTableChange"
       size="middle"
       bordered
     >
       <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'type'">
+          {{ record.type ?? '--' }}
+        </template>
         <template v-if="column.dataIndex === 'createTime'">
           {{ dayjs(record.createTime).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
@@ -86,12 +89,14 @@ import useModal from '@/composables/modal/useModal.ts'
 import { Rule } from 'ant-design-vue/es/form'
 import { addRole, deleteRole, listRoleByPage } from '@/api/roleController.ts'
 import { message } from 'ant-design-vue'
-import { computed } from 'vue'
 import dayjs from 'dayjs'
+import SysModal from '@/components/common/SysModal.vue'
+import { ref } from 'vue'
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
 // region搜索表单
+const searchRef = ref()
 const searchParams = reactive<API.RoleQueryRequest>({
   current: 1,
   pageSize: 10,
@@ -102,7 +107,9 @@ const doSearch = () => {
   searchParams.current = 1
   fetchData()
 }
-const doRest = () => {}
+const doRest = () => {
+  searchRef.value.resetFields()
+}
 // endregion
 
 // region 新增弹窗
@@ -141,8 +148,9 @@ const confirm = () => {
 // endregion
 
 // region 数据列表
+const tableHeight = ref(0)
 const dataGrid = ref<API.SysRole[]>([])
-const total = ref<number>(0)
+const total = ref(0)
 const pagination = computed(() => {
   return {
     current: searchParams.current,
@@ -185,8 +193,8 @@ const doEdit = async (id: any) => {
     return
   }
 }
-
 // endregion
+
 const columns = [
   {
     title: '角色名称',
@@ -225,8 +233,13 @@ const columns = [
   },
 ] as any[]
 onMounted(() => {
+  nextTick(() => {
+    tableHeight.value = window.innerHeight - 300
+  })
   fetchData()
 })
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+</style>

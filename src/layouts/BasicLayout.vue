@@ -1,5 +1,5 @@
 <template>
-  <a-layout style="height: 100vh">
+  <a-layout h-100vh overflow-hidden>
     <a-layout-sider breakpoint="lg" @collapse="onCollapse" @breakpoint="onBreakpoint">
       <menu-bar></menu-bar>
     </a-layout-sider>
@@ -8,7 +8,12 @@
         <basic-header></basic-header>
       </a-layout-header>
       <a-layout-content
-        :style="{ margin: '1px 16px 0', padding: '10px', background: '#fff', height: '100%' }"
+        :style="{
+          margin: '1px 16px 0',
+          padding: '10px',
+          background: '#fff',
+          height: '100%',
+        }"
       >
         <tabs></tabs>
         <router-view></router-view>
@@ -44,8 +49,12 @@ const onBreakpoint = () => {}
   background: #fff;
 }
 
-[data-theme='light'] .site-layout-sub-header-background {
+[data-theme='dark'] .site-layout-sub-header-background {
   background: #141414;
+}
+
+[data-theme='light'] .site-layout-sub-header-background {
+  background: #fff;
 }
 
 .ant-layout-sider {

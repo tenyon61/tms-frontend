@@ -1,11 +1,11 @@
 <template>
   <div id="userManagePage">
     <!-- 搜索表单 -->
-    <a-form layout="inline" :model="searchParams">
-      <a-form-item label="账号">
+    <a-form ref="searchRef" layout="inline" :model="searchParams">
+      <a-form-item name="userAccount" label="账号">
         <a-input v-model:value="searchParams.userAccount" placeholder="输入账号" allow-clear />
       </a-form-item>
-      <a-form-item label="用户名">
+      <a-form-item name="userName" label="用户名">
         <a-input v-model:value="searchParams.userName" placeholder="输入用户名" allow-clear />
       </a-form-item>
       <a-space>
@@ -40,6 +40,9 @@
             :height="38"
           />
         </template>
+        <template v-if="column.dataIndex === 'userProfile'">
+          {{ record.userProfile ?? '--' }}
+        </template>
         <template v-if="column.dataIndex === 'userRole'">
           <a-tag :color="roleColors[record?.userRole]">{{ roleLabels[record?.userRole] }}</a-tag>
         </template>
@@ -64,6 +67,7 @@ import notLoginUser from '@/assets/notLogin.png'
 import ACCESS_ENUM from '@/type/baseEnum.ts'
 
 // region 搜索表单
+const searchRef = ref()
 const searchParams = reactive<API.UserQueryRequest>({
   current: 1,
   pageSize: 10,
@@ -74,7 +78,9 @@ const doSearch = () => {
   searchParams.current = 1
   fetchData()
 }
-const doRest = () => {}
+const doRest = () => {
+  searchRef.value.resetFields()
+}
 // endregion
 
 // region 数据列表

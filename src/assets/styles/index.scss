@@ -6,6 +6,13 @@
   margin: 0;
 }
 
+//html, body {
+//  overflow: hidden; /* 禁用全局滚动条 */
+//  height: 100vh; /* 确保视口高度占满 */
+//  margin: 0; /* 消除默认边距 */
+//  padding: 0;
+//}
+
 /*滚动条美化*/
 *::-webkit-scrollbar {
   width: 10px;
@@ -19,5 +26,5 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: transparent;
+  background: #FAFAFA;
 }
