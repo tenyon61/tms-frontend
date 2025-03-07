@@ -34,7 +34,7 @@
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'userAvatar'">
           <a-image
-            :src="record.userAvatar"
+            :src="record.userAvatar ?? notLoginUser"
             :style="{ borderRadius: '50%', objectFit: 'cover', width: '100%', height: '100%' }"
             :width="38"
             :height="38"
@@ -60,9 +60,10 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { deleteUser, listUserVoByPage } from '@/api/userController.ts'
 import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
+import notLoginUser from '@/assets/notLogin.png'
 import ACCESS_ENUM from '@/type/baseEnum.ts'
 
-// ~搜索表单
+// region 搜索表单
 const searchParams = reactive<API.UserQueryRequest>({
   current: 1,
   pageSize: 10,
@@ -74,7 +75,9 @@ const doSearch = () => {
   fetchData()
 }
 const doRest = () => {}
-// ~数据列表
+// endregion
+
+// region 数据列表
 const dataGrid = ref<API.UserVO[]>([])
 const total = ref(0)
 const pagination = computed(() => {
@@ -116,6 +119,7 @@ const doDelete = async (id: any) => {
     }
   })
 }
+// endregion
 const columns = [
   {
     title: 'id',

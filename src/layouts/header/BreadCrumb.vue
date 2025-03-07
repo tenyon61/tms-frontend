@@ -1,8 +1,8 @@
 <template>
-  <a-breadcrumb>
-    <a-breadcrumb-item v-for="item in tabs" :key="item.path">{{
-      item.meta.label
-    }}</a-breadcrumb-item>
+  <a-breadcrumb class="p-l">
+    <a-breadcrumb-item v-for="item in tabs" :key="item.path"
+      >{{ item.meta.label }}
+    </a-breadcrumb-item>
   </a-breadcrumb>
 </template>
 

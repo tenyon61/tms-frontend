@@ -7,11 +7,11 @@
       <a-layout-header :style="{ background: '#fff', padding: 0 }">
         <basic-header></basic-header>
       </a-layout-header>
-      <a-layout-content :style="{ margin: '1px 16px 0' }">
-        <div :style="{ padding: '10px', background: '#fff', height: '100%' }">
-          <tabs></tabs>
-          <router-view></router-view>
-        </div>
+      <a-layout-content
+        :style="{ margin: '1px 16px 0', padding: '10px', background: '#fff', height: '100%' }"
+      >
+        <tabs></tabs>
+        <router-view></router-view>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
         Ant Design ©2018 Created by Ant UED

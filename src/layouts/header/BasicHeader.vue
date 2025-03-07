@@ -1,11 +1,11 @@
 <template>
   <div class="basic-header">
-    <a-row :wrap="false">
-      <a-col flex="auto" class="flex items-center p-l">
+    <a-row :wrap="false" class="items-center">
+      <a-col flex="180" class="ws-nowrap">
         <bread-crumb></bread-crumb>
       </a-col>
-      <a-col flex="180px">
-        <a-space :size="16" class="justify-end flex-center">
+      <a-col flex="auto">
+        <a-space :size="16">
           <a
             class="color-black"
             href="https://github.com/tenyon61/cqbo-frontend/issues"
@@ -78,20 +78,6 @@ const doDropItemClick = async (key: string) => {
 </script>
 <style scoped lang="scss">
 .basic-header {
-  .title-bar {
-    display: flex;
-    align-items: center;
-    .title {
-      color: black;
-      font-size: 18px;
-      margin-left: 16px;
-    }
-
-    .logo {
-      height: 48px;
-    }
-  }
-
   :deep(.ant-space-item) {
     svg {
       vertical-align: middle;
