@@ -55,13 +55,13 @@
         </template>
         <template v-else-if="column.key === 'action'">
           <a-space class="flex-center">
-            <div class="i-ri:edit-box-line color-blue" @click="doEdit(record.id)"></div>
+            <div class="i-ri:edit-box-line color-blue" @click="doEdit(record)"></div>
             <div class="i-ri:delete-bin-6-line color-red" @click="doDelete(record.id)"></div>
           </a-space>
         </template>
       </template>
     </a-table>
-    <!-- 新增弹窗 -->
+    <!-- 弹窗 -->
     <sys-modal
       :open="modal.open"
       :title="modal.title"
@@ -73,7 +73,10 @@
       <template #content>
         <a-form ref="formRef" label-align="right" :model="formState" :rules="rules">
           <a-form-item name="roleName" label="角色名称" :label-col="{ span: 6 }">
-            <a-input v-model:value="formState.roleName" placeholder="请填写角色"></a-input>
+            <a-input v-model:value="formState.roleName" placeholder="请填写角色名称"></a-input>
+          </a-form-item>
+          <a-form-item name="type" label="角色名称" :label-col="{ span: 6 }">
+            <a-input v-model:value="formState.type" placeholder="请填写扩展字段"></a-input>
           </a-form-item>
           <a-form-item name="remark" label="备注" :label-col="{ span: 6 }">
             <a-input v-model:value="formState.remark" placeholder="请填写备注"></a-input>
@@ -87,7 +90,7 @@
 <script setup lang="ts">
 import useModal from '@/composables/modal/useModal.ts'
 import { Rule } from 'ant-design-vue/es/form'
-import { addRole, deleteRole, listRoleByPage } from '@/api/roleController.ts'
+import { addRole, deleteRole, listRoleByPage, updateRole } from '@/api/roleController.ts'
 import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import SysModal from '@/components/common/SysModal.vue'
@@ -112,35 +115,58 @@ const doRest = () => {
 }
 // endregion
 
-// region 新增弹窗
+// region 弹窗
+const tags = ref('')
 const formRef = ref()
+const formState = reactive(<API.RoleAddRequest | API.RoleUpdateRequest>{
+  id: '',
+  roleName: '',
+  type: '',
+  remark: '',
+})
 const doAdd = () => {
+  tags.value = '0'
   modal.title = '新增'
   modal.width = 460
   modal.height = 160
   showModal()
 }
-const formState = reactive(<API.RoleAddRequest>{
-  roleName: '',
-  remark: '',
-})
+const doEdit = async (record: API.SysRole) => {
+  tags.value = '1'
+  modal.title = '修改'
+  modal.width = 460
+  modal.height = 160
+  showModal()
+  Object.assign(formState, record)
+}
 const rules: Record<string, Rule[]> = {
   roleName: [{ required: true, message: '角色名称不能为空' }],
-  remark: [{ required: true, message: '扩展字段不能为空' }],
 }
 const confirm = () => {
   formRef.value
     .validate()
-    .then(async (data: API.RoleAddRequest) => {
-      await addRole(data).then((res) => {
-        if (res.data.code === 0) {
-          message.success('保存成功！')
-          formRef.value.resetFields()
-          handleOk()
-        } else {
-          message.error(res.data.message)
-        }
-      })
+    .then(async () => {
+      if (tags.value === '0') {
+        await addRole(formState).then((res) => {
+          if (res.data.code === 0) {
+            message.success('保存成功！')
+            formRef.value.resetFields()
+            handleOk()
+          } else {
+            message.error(res.data.message)
+          }
+        })
+      } else if (tags.value === '1') {
+        await updateRole(formState).then((res) => {
+          if (res.data.code === 0) {
+            message.success('修改成功！')
+            formRef.value.resetFields()
+            handleOk()
+          } else {
+            message.error(res.data.message)
+          }
+        })
+      }
     })
     .catch(() => {})
     .finally(() => fetchData())
@@ -187,11 +213,6 @@ const doDelete = async (id: any) => {
       message.error('删除失败')
     }
   })
-}
-const doEdit = async (id: any) => {
-  if (!id) {
-    return
-  }
 }
 // endregion
 
@@ -240,6 +261,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
