@@ -8,6 +8,15 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListRoleSelectItem = {
+    /** 响应代码 */
+    code?: number
+    /** 响应内容 */
+    data?: RoleSelectItem[]
+    /** 响应消息 */
+    message?: string
+  }
+
   type BaseResponseLoginUserVO = {
     /** 响应代码 */
     code?: number
@@ -174,6 +183,15 @@ declare namespace API {
     remark?: string
   }
 
+  type RoleSelectItem = {
+    /** 角色id */
+    value?: number
+    /** 角色名称 */
+    label?: string
+    /** 是否选中 */
+    checked?: boolean
+  }
+
   type RoleUpdateRequest = {
     /** id */
     id?: number
@@ -224,6 +242,8 @@ declare namespace API {
     email?: string
     /** 手机号 */
     phone?: string
+    /** 角色 */
+    roleIds?: string
   }
 
   type UserLoginRequest = {
@@ -231,6 +251,8 @@ declare namespace API {
     userAccount?: string
     /** 密码 */
     userPassword?: string
+    /** 角色 */
+    roleIds?: string
   }
 
   type UserQueryRequest = {

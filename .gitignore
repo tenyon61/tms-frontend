@@ -4,7 +4,7 @@ components.d.ts
 
 application-local.yml
 .rebel.xml
-#----- cqbo -----
+#----- tms -----
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

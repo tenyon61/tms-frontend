@@ -8,12 +8,12 @@
         <a-space :size="16">
           <a
             class="color-black"
-            href="https://github.com/tenyon61/cqbo-frontend/issues"
+            href="https://github.com/tenyon61/tms-frontend/issues"
             target="_blank"
           >
             <Icon icon="ri:question-line" width="2.0em"></Icon>
           </a>
-          <a class="color-black" href="https://github.com/tenyon61/cqbo-frontend" target="_blank">
+          <a class="color-black" href="https://github.com/tenyon61/tms-frontend" target="_blank">
             <Icon icon="ri:github-fill" width="2.0em"></Icon>
           </a>
           <SysScreen></SysScreen>

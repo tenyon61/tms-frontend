@@ -103,9 +103,18 @@
               </a-form-item>
             </a-col>
           </a-row>
-          <a-form-item name="phone" label="电话号码" :label-col="{ span: 4 }">
-            <a-input v-model:value="formState.phone" placeholder="请输入电话号码"></a-input>
-          </a-form-item>
+          <a-row>
+            <a-col :span="12">
+              <a-form-item name="roleIds" label="角色" :label-col="{ span: 8 }">
+                <sys-select-checked :options="options" @selected="doSelected"></sys-select-checked>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item name="phone" label="电话号码" :label-col="{ span: 8 }">
+                <a-input v-model:value="formState.phone" placeholder="请输入电话号码"></a-input>
+              </a-form-item>
+            </a-col>
+          </a-row>
         </a-form>
       </template>
     </sys-modal>
@@ -121,6 +130,7 @@ import ACCESS_ENUM from '@/type/baseEnum.ts'
 import { Rule } from 'ant-design-vue/es/form'
 import useModal from '@/composables/modal/useModal.ts'
 import SysModal from '@/components/common/SysModal.vue'
+import { selectRoleList } from '@/api/roleController.ts'
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
@@ -152,6 +162,7 @@ const formState = reactive(<API.UserAddRequest | API.UserUpdateRequest>{
   sex: 1,
   email: '',
   phone: '',
+  roleIds: '',
 })
 const doAdd = () => {
   tags.value = '0'
@@ -176,6 +187,7 @@ const rules: Record<string, Rule[]> = {
   phone: [{ pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码' }],
 }
 const confirm = () => {
+  console.log(formState)
   formRef.value
     .validate()
     .then(async () => {
@@ -203,6 +215,19 @@ const confirm = () => {
     })
     .catch(() => {})
     .finally(() => fetchData())
+}
+const options = ref([])
+
+const getRoleSelect = async () => {
+  await selectRoleList().then((res) => {
+    if (res.data.code === 0) {
+      options.value = res.data.data as any
+    }
+  })
+}
+const doSelected = (selected: Array<string | number>) => {
+  console.log('选中了', selected)
+  formState.roleIds = selected.join(',')
 }
 // endregion
 
@@ -350,6 +375,7 @@ onMounted(() => {
   nextTick(() => {
     tableHeight.value = window.innerHeight - 300
   })
+  getRoleSelect()
   fetchData()
 })
 </script>

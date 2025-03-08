@@ -38,6 +38,14 @@ export async function listRoleByPage(body: API.RoleQueryRequest, options?: { [ke
   })
 }
 
+/** 获取下拉角色列表 GET /api/role/selectList */
+export async function selectRoleList(options?: { [key: string]: any }) {
+  return request<API.BaseResponseListRoleSelectItem>('/api/role/selectList', {
+    method: 'GET',
+    ...(options || {}),
+  })
+}
+
 /** 更新角色 POST /api/role/update */
 export async function updateRole(body: API.RoleUpdateRequest, options?: { [key: string]: any }) {
   return request<API.BaseResponseBoolean>('/api/role/update', {
