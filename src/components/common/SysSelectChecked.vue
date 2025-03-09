@@ -52,7 +52,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const selectedOptions = ref<Array<string | number>>([])
-const selectWidth = props.width === 0 ? '100%' : props.width + 'px'
+const selectWidth = props.width === 0 ? `width: 100%` : `width: ${props.width}px`
 const emit = defineEmits(['selected'])
 
 const toggleOption = (item: any) => {

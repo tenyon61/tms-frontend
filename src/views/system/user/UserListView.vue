@@ -182,7 +182,7 @@ const doEdit = async (record: API.SysRole) => {
 const rules: Record<string, Rule[]> = {
   userAccount: [{ required: true, message: '用户账号不能为空' }],
   userName: [{ required: true, message: '用户名称不能为空' }],
-  email: [{ type: 'email', message: '请输入正确的邮箱' }],
+  email: [{ pattern: /^[a-zA-Z0-9._%+-]+@(qq|163|gmail)\.com$/, message: '请输入正确的邮箱' }],
   sex: [{ type: 'enum', enum: [0, 1] }],
   phone: [{ pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码' }],
 }
