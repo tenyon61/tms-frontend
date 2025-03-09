@@ -157,7 +157,7 @@ declare namespace API {
 
   type RoleAddRequest = {
     /** 角色名称 */
-    roleName?: string
+    roleName: string
     /** 扩展字段 */
     type?: string
     /** 备注 */
@@ -229,6 +229,7 @@ declare namespace API {
     createTime?: string
     updateTime?: string
     isDelete?: number
+    roleIds?: string
   }
 
   type UserAddRequest = {
@@ -317,6 +318,8 @@ declare namespace API {
     email?: string
     /** 手机号 */
     phone?: string
+    /** 角色 */
+    roleIds?: string
   }
 
   type UserVO = {
