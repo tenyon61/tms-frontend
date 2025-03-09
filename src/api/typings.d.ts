@@ -8,6 +8,15 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListLong = {
+    /** 响应代码 */
+    code?: number
+    /** 响应内容 */
+    data?: number[]
+    /** 响应消息 */
+    message?: string
+  }
+
   type BaseResponseListRoleSelectItem = {
     /** 响应代码 */
     code?: number
@@ -80,6 +89,10 @@ declare namespace API {
   }
 
   type getUserByIdParams = {
+    id: number
+  }
+
+  type getUserRoleListParams = {
     id: number
   }
 
@@ -332,7 +345,7 @@ declare namespace API {
     /** 用户头像 */
     userAvatar?: string
     /** 性别 */
-    sex?: string
+    sex?: number
     /** 用户简介 */
     userProfile?: string
     /** 用户角色 */

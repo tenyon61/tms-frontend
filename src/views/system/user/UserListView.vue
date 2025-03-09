@@ -44,6 +44,14 @@
             :height="38"
           />
         </template>
+        <template v-if="column.dataIndex === 'sex'">
+          <span class="flex-center" v-if="record.sex === 0">
+            <div class="i-ri:men-line color-blue"></div>
+          </span>
+          <span class="flex-center" v-else>
+            <div class="i-ri:women-line color-red"></div>
+          </span>
+        </template>
         <template v-if="column.dataIndex === 'userProfile'">
           {{ record.userProfile ?? '--' }}
         </template>
@@ -106,7 +114,11 @@
           <a-row>
             <a-col :span="12">
               <a-form-item name="roleIds" label="角色" :label-col="{ span: 8 }">
-                <sys-select-checked :options="options" @selected="doSelected"></sys-select-checked>
+                <sys-select-checked
+                  :options="options"
+                  @selected="doSelected"
+                  :bind-value="bindValue"
+                ></sys-select-checked>
               </a-form-item>
             </a-col>
             <a-col :span="12">
@@ -122,7 +134,13 @@
 </template>
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref } from 'vue'
-import { addUser, deleteUser, listUserVoByPage, updateUser } from '@/api/userController.ts'
+import {
+  addUser,
+  deleteUser,
+  getUserRoleList,
+  listUserVoByPage,
+  updateUser,
+} from '@/api/userController.ts'
 import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import notLoginUser from '@/assets/notLogin.png'
@@ -162,7 +180,6 @@ const formState = reactive(<API.UserAddRequest | API.UserUpdateRequest>{
   sex: 1,
   email: '',
   phone: '',
-  roleIds: '',
 })
 const doAdd = () => {
   tags.value = '0'
@@ -171,12 +188,13 @@ const doAdd = () => {
   modal.height = 180
   showModal()
 }
-const doEdit = async (record: API.SysRole) => {
+const doEdit = async (record: API.SysUser) => {
   tags.value = '1'
   modal.title = '修改'
   modal.width = 600
   modal.height = 180
   showModal()
+  getRoleList(record.id as number)
   Object.assign(formState, record)
 }
 const rules: Record<string, Rule[]> = {
@@ -217,7 +235,7 @@ const confirm = () => {
     .finally(() => fetchData())
 }
 const options = ref([])
-
+const bindValue = ref([])
 const getRoleSelect = async () => {
   await selectRoleList().then((res) => {
     if (res.data.code === 0) {
@@ -226,8 +244,16 @@ const getRoleSelect = async () => {
   })
 }
 const doSelected = (selected: Array<string | number>) => {
-  console.log('选中了', selected)
   formState.roleIds = selected.join(',')
+}
+
+const getRoleList = async (userId: number) => {
+  await getUserRoleList({ id: userId }).then((res) => {
+    if (res.data.code === 0) {
+      bindValue.value = res.data.data as []
+      formState.roleIds = res.data.data?.join(',')
+    }
+  })
 }
 // endregion
 
@@ -304,7 +330,7 @@ const columns = [
     dataIndex: 'sex',
     key: 'sex',
     align: 'center',
-    width: 80,
+    width: 60,
   },
   {
     title: '头像',

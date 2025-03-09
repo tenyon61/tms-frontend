@@ -40,11 +40,15 @@ const VNodes = defineComponent({
 type Props = {
   width?: number
   max?: number
+  bindValue?: Array<string | number>
   options?: Array<{ value: string | number; label: string; title?: string; disabled?: boolean }>
 }
 
 const props = withDefaults(defineProps<Props>(), {
   options: () => {
+    return []
+  },
+  bindValue: () => {
     return []
   },
   width: 0,
@@ -82,6 +86,13 @@ const selectAll = (isAll: boolean) => {
   }
   emit('selected', selectedOptions.value)
 }
+
+watch(
+  () => props.bindValue,
+  () => {
+    selectedOptions.value = props.bindValue
+  },
+)
 </script>
 
 <style scoped></style>
