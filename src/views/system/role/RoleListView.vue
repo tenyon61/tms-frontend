@@ -133,7 +133,7 @@ const doAdd = () => {
   modal.height = 160
   showModal()
 }
-const doEdit = async (record: API.SysRole) => {
+const doEdit = async (record: API.SysRoleVO) => {
   tags.value = '1'
   modal.title = '修改'
   modal.width = 460
