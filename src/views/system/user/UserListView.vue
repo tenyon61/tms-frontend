@@ -266,7 +266,7 @@ const getRoleList = async (userId: number) => {
 
 // region 数据列表
 const tableHeight = ref(0)
-const dataGrid = ref<API.UserVO[]>([])
+const dataGrid = ref<API.SysUserVO[]>([])
 const total = ref(0)
 const pagination = computed(() => {
   return {
