@@ -14,14 +14,16 @@ export async function addRole(body: API.RoleAddRequest, options?: { [key: string
   })
 }
 
-/** 删除角色 POST /api/role/delete */
-export async function deleteRole(body: API.DeleteRequest, options?: { [key: string]: any }) {
-  return request<API.BaseResponseBoolean>('/api/role/delete', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
+/** 删除角色 DELETE /api/role/delete/${param0} */
+export async function deleteRole(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.deleteRoleParams,
+  options?: { [key: string]: any },
+) {
+  const { id: param0, ...queryParams } = params
+  return request<API.BaseResponseBoolean>(`/api/role/delete/${param0}`, {
+    method: 'DELETE',
+    params: { ...queryParams },
     ...(options || {}),
   })
 }
@@ -46,10 +48,10 @@ export async function selectRoleList(options?: { [key: string]: any }) {
   })
 }
 
-/** 更新角色 POST /api/role/update */
+/** 更新角色 PUT /api/role/update */
 export async function updateRole(body: API.RoleUpdateRequest, options?: { [key: string]: any }) {
   return request<API.BaseResponseBoolean>('/api/role/update', {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },

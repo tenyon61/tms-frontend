@@ -67,8 +67,8 @@
       :title="modal.title"
       :width="modal.width"
       :height="modal.height"
-      @handleOk="confirm"
-      @handleCancel="handleCancel"
+      @handleOk="doConfirm"
+      @handleCancel="doCancel"
     >
       <template #content>
         <a-form ref="formRef" label-align="right" :model="formState" :rules="rules">
@@ -95,6 +95,7 @@ import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import SysModal from '@/components/common/SysModal.vue'
 import { ref } from 'vue'
+import sysConfirm from '@/utils/confirmUtil.ts'
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
@@ -143,12 +144,12 @@ const doEdit = async (record: API.SysRole) => {
 const rules: Record<string, Rule[]> = {
   roleName: [{ required: true, message: '角色名称不能为空' }],
 }
-const confirm = () => {
+const doConfirm = () => {
   formRef.value
     .validate()
     .then(async () => {
       if (tags.value === '0') {
-        await addRole(formState).then((res) => {
+        await addRole(formState as any).then((res) => {
           if (res.data.code === 0) {
             message.success('保存成功！')
             formRef.value.resetFields()
@@ -171,6 +172,11 @@ const confirm = () => {
     })
     .catch(() => {})
     .finally(() => fetchData())
+}
+
+const doCancel = () => {
+  formRef.value.resetFields()
+  handleCancel()
 }
 // endregion
 
@@ -206,14 +212,17 @@ const doDelete = async (id: any) => {
   if (!id) {
     return
   }
-  await deleteRole({ id }).then((res) => {
-    if (res.data.code === 0) {
-      message.success('删除成功！')
-      fetchData()
-    } else {
-      message.error('删除失败')
-    }
-  })
+  const confirm = await sysConfirm()
+  if (confirm) {
+    await deleteRole({ id }).then((res) => {
+      if (res.data.code === 0) {
+        message.success('删除成功！')
+        fetchData()
+      } else {
+        message.error('删除失败')
+      }
+    })
+  }
 }
 // endregion
 

@@ -14,14 +14,16 @@ export async function addUser(body: API.UserAddRequest, options?: { [key: string
   })
 }
 
-/** 删除用户 POST /api/user/delete */
-export async function deleteUser(body: API.DeleteRequest, options?: { [key: string]: any }) {
-  return request<API.BaseResponseBoolean>('/api/user/delete', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
+/** 删除用户 DELETE /api/user/delete/${param0} */
+export async function deleteUser(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.deleteUserParams,
+  options?: { [key: string]: any },
+) {
+  const { id: param0, ...queryParams } = params
+  return request<API.BaseResponseBoolean>(`/api/user/delete/${param0}`, {
+    method: 'DELETE',
+    params: { ...queryParams },
     ...(options || {}),
   })
 }
@@ -98,10 +100,24 @@ export async function listUserVoByPage(
   })
 }
 
-/** 更新用户 POST /api/user/update */
+/** 重置密码 PUT /api/user/resetPwd/${param0} */
+export async function resetPwd(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.resetPwdParams,
+  options?: { [key: string]: any },
+) {
+  const { id: param0, ...queryParams } = params
+  return request<API.BaseResponseBoolean>(`/api/user/resetPwd/${param0}`, {
+    method: 'PUT',
+    params: { ...queryParams },
+    ...(options || {}),
+  })
+}
+
+/** 更新用户 PUT /api/user/update */
 export async function updateUser(body: API.UserUpdateRequest, options?: { [key: string]: any }) {
   return request<API.BaseResponseBoolean>('/api/user/update', {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -110,13 +126,13 @@ export async function updateUser(body: API.UserUpdateRequest, options?: { [key: 
   })
 }
 
-/** 更新个人信息 POST /api/user/updateMy */
+/** 更新个人信息 PUT /api/user/updateMy */
 export async function updateMyUser(
   body: API.UserUpdateMyRequest,
   options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseBoolean>('/api/user/updateMy', {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },

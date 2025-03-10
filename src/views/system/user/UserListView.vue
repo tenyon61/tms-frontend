@@ -65,6 +65,7 @@
           <a-space class="flex-center">
             <div class="i-ri:edit-box-line color-blue" @click="doEdit(record)"></div>
             <div class="i-ri:delete-bin-6-line color-red" @click="doDelete(record.id)"></div>
+            <div class="i-ri:reset-right-fill color-orange" @click="doResetPwd(record.id)"></div>
           </a-space>
         </template>
       </template>
@@ -75,8 +76,8 @@
       :title="modal.title"
       :width="modal.width"
       :height="modal.height"
-      @handleOk="confirm"
-      @handleCancel="handleCancel"
+      @handleOk="doConfirm"
+      @handleCancel="doCancel"
     >
       <template #content>
         <a-form ref="formRef" label-align="right" :model="formState" :rules="rules">
@@ -139,6 +140,7 @@ import {
   deleteUser,
   getUserRoleList,
   listUserVoByPage,
+  resetPwd,
   updateUser,
 } from '@/api/userController.ts'
 import { message } from 'ant-design-vue'
@@ -149,6 +151,7 @@ import { Rule } from 'ant-design-vue/es/form'
 import useModal from '@/composables/modal/useModal.ts'
 import SysModal from '@/components/common/SysModal.vue'
 import { selectRoleList } from '@/api/roleController.ts'
+import sysConfirm from '@/utils/confirmUtil.ts'
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
@@ -204,7 +207,7 @@ const rules: Record<string, Rule[]> = {
   sex: [{ type: 'enum', enum: [0, 1] }],
   phone: [{ pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码' }],
 }
-const confirm = () => {
+const doConfirm = () => {
   console.log(formState)
   formRef.value
     .validate()
@@ -233,6 +236,10 @@ const confirm = () => {
     })
     .catch(() => {})
     .finally(() => fetchData())
+}
+const doCancel = () => {
+  formRef.value.resetFields()
+  handleCancel()
 }
 const options = ref([])
 const bindValue = ref([])
@@ -291,14 +298,29 @@ const doDelete = async (id: any) => {
   if (!id) {
     return
   }
-  await deleteUser({ id }).then((res) => {
-    if (res.data.code === 0) {
-      message.success('删除成功')
-      fetchData()
-    } else {
-      message.error('删除失败')
-    }
-  })
+  const confirm = await sysConfirm()
+  if (confirm) {
+    await deleteUser({ id }).then((res) => {
+      if (res.data.code === 0) {
+        message.success('删除成功')
+        fetchData()
+      } else {
+        message.error('删除失败')
+      }
+    })
+  }
+}
+const doResetPwd = async (id: number) => {
+  const confirm = await sysConfirm('是否确认重置密码？')
+  if (confirm) {
+    await resetPwd({ id }).then((res) => {
+      if (res.data.code === 0) {
+        message.success('密码重置成功')
+      } else {
+        message.error(res.data.message)
+      }
+    })
+  }
 }
 // endregion
 const columns = [

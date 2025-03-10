@@ -83,9 +83,12 @@ declare namespace API {
     message?: string
   }
 
-  type DeleteRequest = {
-    /** id */
-    id?: number
+  type deleteRoleParams = {
+    id: number
+  }
+
+  type deleteUserParams = {
+    id: number
   }
 
   type getUserByIdParams = {
@@ -166,6 +169,10 @@ declare namespace API {
     maxLimit?: number
     countId?: string
     pages?: number
+  }
+
+  type resetPwdParams = {
+    id: number
   }
 
   type RoleAddRequest = {
