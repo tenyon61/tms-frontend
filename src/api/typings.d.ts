@@ -26,6 +26,15 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListSysMenuVO = {
+    /** 响应代码 */
+    code?: number
+    /** 响应内容 */
+    data?: SysMenuVO[]
+    /** 响应消息 */
+    message?: string
+  }
+
   type BaseResponseLoginUserVO = {
     /** 响应代码 */
     code?: number
@@ -43,10 +52,18 @@ declare namespace API {
     message?: string
   }
 
-  type BaseResponsePageSysRole = {
+  type BaseResponsePageSysMenuVO = {
     /** 响应代码 */
     code?: number
-    data?: PageSysRole
+    data?: PageSysMenuVO
+    /** 响应消息 */
+    message?: string
+  }
+
+  type BaseResponsePageSysRoleVO = {
+    /** 响应代码 */
+    code?: number
+    data?: PageSysRoleVO
     /** 响应消息 */
     message?: string
   }
@@ -59,10 +76,10 @@ declare namespace API {
     message?: string
   }
 
-  type BaseResponsePageUserVO = {
+  type BaseResponsePageSysUserVO = {
     /** 响应代码 */
     code?: number
-    data?: PageUserVO
+    data?: PageSysUserVO
     /** 响应消息 */
     message?: string
   }
@@ -75,12 +92,16 @@ declare namespace API {
     message?: string
   }
 
-  type BaseResponseUserVO = {
+  type BaseResponseSysUserVO = {
     /** 响应代码 */
     code?: number
-    data?: UserVO
+    data?: SysUserVO
     /** 响应消息 */
     message?: string
+  }
+
+  type deleteMenuParams = {
+    id: number
   }
 
   type deleteRoleParams = {
@@ -124,19 +145,118 @@ declare namespace API {
     updateTime?: string
   }
 
+  type MenuAddRequest = {
+    /** 父级菜单id */
+    parentId?: number
+    /** 菜单名称 */
+    title?: string
+    /** 权限字段 */
+    code?: string
+    /** 路由name */
+    name?: string
+    /** 路由path */
+    path?: string
+    /** 组件路径 */
+    url?: string
+    /** 0：目录 1：菜单 2：按钮 */
+    type?: number
+    /** 菜单图标 */
+    icon?: string
+    /** 上级菜单名称 */
+    parentName?: string
+    /** 序号 */
+    orderNum?: number
+    /** 子菜单 */
+    children?: SysMenuVO[]
+    /** itemValue */
+    value?: number
+    /** itemLable */
+    label?: string
+  }
+
+  type MenuQueryRequest = {
+    /** 当前页号 */
+    current?: number
+    /** 页面大小 */
+    pageSize?: number
+    /** 排序字段 */
+    sortField?: string
+    /** 默认升序 ascend/descend */
+    sortOrder?: string
+    /** id */
+    id?: number
+    /** 菜单名称 */
+    title?: string
+    /** 路由name */
+    name?: string
+    /** 路由path */
+    path?: string
+    /** 组件路径 */
+    url?: string
+    /** 0：目录 1：菜单 2：按钮 */
+    type?: number
+    /** 上级菜单名称 */
+    parentName?: string
+  }
+
+  type MenuUpdateRequest = {
+    /** 主键 */
+    id?: number
+    /** 父级菜单id */
+    parentId?: number
+    /** 菜单名称 */
+    title?: string
+    /** 权限字段 */
+    code?: string
+    /** 路由name */
+    name?: string
+    /** 路由path */
+    path?: string
+    /** 组件路径 */
+    url?: string
+    /** 0：目录 1：菜单 2：按钮 */
+    type?: number
+    /** 菜单图标 */
+    icon?: string
+    /** 上级菜单名称 */
+    parentName?: string
+    /** 序号 */
+    orderNum?: number
+    /** 子菜单 */
+    children?: SysMenuVO[]
+    /** itemValue */
+    value?: number
+    /** itemLable */
+    label?: string
+  }
+
   type OrderItem = {
     column?: string
     asc?: boolean
   }
 
-  type PageSysRole = {
-    records?: SysRole[]
+  type PageSysMenuVO = {
+    records?: SysMenuVO[]
     total?: number
     size?: number
     current?: number
     orders?: OrderItem[]
-    optimizeCountSql?: PageSysRole
-    searchCount?: PageSysRole
+    optimizeCountSql?: PageSysMenuVO
+    searchCount?: PageSysMenuVO
+    optimizeJoinOfCountSql?: boolean
+    maxLimit?: number
+    countId?: string
+    pages?: number
+  }
+
+  type PageSysRoleVO = {
+    records?: SysRoleVO[]
+    total?: number
+    size?: number
+    current?: number
+    orders?: OrderItem[]
+    optimizeCountSql?: PageSysRoleVO
+    searchCount?: PageSysRoleVO
     optimizeJoinOfCountSql?: boolean
     maxLimit?: number
     countId?: string
@@ -157,14 +277,14 @@ declare namespace API {
     pages?: number
   }
 
-  type PageUserVO = {
-    records?: UserVO[]
+  type PageSysUserVO = {
+    records?: SysUserVO[]
     total?: number
     size?: number
     current?: number
     orders?: OrderItem[]
-    optimizeCountSql?: PageUserVO
-    searchCount?: PageUserVO
+    optimizeCountSql?: PageSysUserVO
+    searchCount?: PageSysUserVO
     optimizeJoinOfCountSql?: boolean
     maxLimit?: number
     countId?: string
@@ -223,12 +343,51 @@ declare namespace API {
     remark?: string
   }
 
-  type SysRole = {
+  type SysMenuVO = {
+    /** 主键 */
     id?: number
-    roleName?: string
-    type?: string
-    remark?: string
+    /** 父级菜单id */
+    parentId?: number
+    /** 菜单名称 */
+    title?: string
+    /** 权限字段 */
+    code?: string
+    /** 路由name */
+    name?: string
+    /** 路由path */
+    path?: string
+    /** 组件路径 */
+    url?: string
+    /** 0：目录 1：菜单 2：按钮 */
+    type?: number
+    /** 菜单图标 */
+    icon?: string
+    /** 上级菜单名称 */
+    parentName?: string
+    /** 序号 */
+    orderNum?: number
+    /** 创建时间 */
     createTime?: string
+    /** 更新时间 */
+    updateTime?: string
+    /** itemValue */
+    value?: number
+    /** itemLable */
+    label?: string
+  }
+
+  type SysRoleVO = {
+    /** 主键 */
+    id?: number
+    /** 角色名称 */
+    roleName?: string
+    /** 扩展字段 */
+    type?: string
+    /** 备注 */
+    remark?: string
+    /** 创建时间 */
+    createTime?: string
+    /** 更新时间 */
     updateTime?: string
   }
 
@@ -250,6 +409,29 @@ declare namespace API {
     updateTime?: string
     isDelete?: number
     roleIds?: string
+  }
+
+  type SysUserVO = {
+    /** id */
+    id?: number
+    /** 账号 */
+    userAccount?: string
+    /** 用户昵称 */
+    userName?: string
+    /** 用户头像 */
+    userAvatar?: string
+    /** 性别 */
+    sex?: number
+    /** 用户简介 */
+    userProfile?: string
+    /** 用户角色 */
+    userRole?: string
+    /** 用户邮箱 */
+    email?: string
+    /** 手机号码 */
+    phone?: string
+    /** 创建时间 */
+    createTime?: string
   }
 
   type UserAddRequest = {
@@ -340,28 +522,5 @@ declare namespace API {
     phone?: string
     /** 角色 */
     roleIds?: string
-  }
-
-  type UserVO = {
-    /** id */
-    id?: number
-    /** 账号 */
-    userAccount?: string
-    /** 用户昵称 */
-    userName?: string
-    /** 用户头像 */
-    userAvatar?: string
-    /** 性别 */
-    sex?: number
-    /** 用户简介 */
-    userProfile?: string
-    /** 用户角色 */
-    userRole?: string
-    /** 用户邮箱 */
-    email?: string
-    /** 手机号码 */
-    phone?: string
-    /** 创建时间 */
-    createTime?: string
   }
 }

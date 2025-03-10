@@ -90,7 +90,7 @@
 <script setup lang="ts">
 import useModal from '@/composables/modal/useModal.ts'
 import { Rule } from 'ant-design-vue/es/form'
-import { addRole, deleteRole, listRoleByPage, updateRole } from '@/api/roleController.ts'
+import { addRole, deleteRole, listRoleVoByPage, updateRole } from '@/api/roleController.ts'
 import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import SysModal from '@/components/common/SysModal.vue'
@@ -182,7 +182,7 @@ const doCancel = () => {
 
 // region 数据列表
 const tableHeight = ref(0)
-const dataGrid = ref<API.SysRole[]>([])
+const dataGrid = ref<API.SysRoleVO[]>([])
 const total = ref(0)
 const pagination = computed(() => {
   return {
@@ -194,7 +194,7 @@ const pagination = computed(() => {
   }
 })
 const fetchData = async () => {
-  await listRoleByPage({ ...searchParams }).then((res) => {
+  await listRoleVoByPage({ ...searchParams }).then((res) => {
     if (res.data.code === 0 && res.data.data) {
       dataGrid.value = res.data.data.records ?? []
       total.value = Number(res.data.data.total) ?? 0
