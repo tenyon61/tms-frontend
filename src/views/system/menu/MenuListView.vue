@@ -1,11 +1,45 @@
 <template>
   <div class="menuList">
+    <!-- 搜索表单 -->
     <a-space>
       <a-button class="flex-center" type="primary" danger @click="doAdd">
         <div class="i-ri:add-large-line m-r0.5"></div>
         新增
       </a-button>
     </a-space>
+    <!-- 列表 -->
+    <a-table
+      :data-source="dataGrid"
+      :columns="columns"
+      :table-layout="'fixed'"
+      :pagination="pagination"
+      :scroll="{ y: tableHeight }"
+      @change="doTableChange"
+      size="middle"
+      bordered
+    >
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'icon'">
+          <Icon :icon="record.icon"></Icon>
+        </template>
+        <template v-if="column.dataIndex === 'type'">
+          <a-tag :color="Colors[record.type]">{{ Labels[record.type] }}</a-tag>
+        </template>
+        <template v-if="column.dataIndex === 'createTime'">
+          {{ dayjs(record.createTime).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+        <template v-if="column.dataIndex === 'updateTime'">
+          {{ dayjs(record.updateTime).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+        <template v-else-if="column.key === 'action'">
+          <a-space class="flex-center">
+            <div class="i-ri:edit-box-line color-blue" @click="doEdit(record)"></div>
+            <div class="i-ri:delete-bin-6-line color-red" @click="doDelete(record.id)"></div>
+          </a-space>
+        </template>
+      </template>
+    </a-table>
+    <!-- 弹窗 -->
     <sys-modal
       :open="modal.open"
       :title="modal.title"
@@ -27,7 +61,8 @@
                   placeholder="请选择"
                   tree-node-filter-prop="label"
                   :tree-data="treeData"
-                  tree-checkable
+                  :tree-line="true"
+                  @select="onNodeSelect"
                   allow-clear
                 ></a-tree-select>
               </a-form-item>
@@ -46,7 +81,7 @@
             </a-col>
             <a-col :span="12" :offset="0">
               <a-form-item name="name" label="路由名称" :label-col="{ span: 8 }">
-                <a-input v-model:value="formState.icon" placeholder="请填写路由名称"></a-input>
+                <a-input v-model:value="formState.name" placeholder="请填写路由名称"></a-input>
               </a-form-item>
             </a-col>
           </a-row>
@@ -87,13 +122,18 @@ import { Rule } from 'ant-design-vue/es/form'
 import {
   addMenu,
   deleteMenu,
+  getMenuList,
   getParentMenuList,
   listMenuVoByPage,
   updateMenu,
 } from '@/api/menuController.ts'
 import { message } from 'ant-design-vue'
 import sysConfirm from '@/utils/confirmUtil.ts'
+import dayjs from 'dayjs'
 import SysMenuVO = API.SysMenuVO
+import { Icon } from '@iconify/vue'
+import { reactive } from 'vue'
+import ACCESS_ENUM from '@/type/baseEnum.ts'
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
@@ -102,7 +142,7 @@ const searchParams = reactive<API.MenuQueryRequest>({
   current: 1,
   pageSize: 10,
   sortField: 'orderNum',
-  sortOrder: 'descend',
+  sortOrder: 'ascend',
 })
 // endregion
 
@@ -151,9 +191,15 @@ const doEdit = async (record: API.SysMenuVO) => {
   Object.assign(formState, record)
 }
 const rules: Record<string, Rule[]> = {
-  type: [{ required: true, message: '资源类型必填' }],
-  title: [{ required: true, message: '菜单名称不能为空' }],
   parentId: [{ required: true, message: '父级菜单必填' }],
+  title: [{ required: true, message: '菜单名称必填' }],
+  code: [{ required: true, message: '权限字段必填' }],
+  name: [{ required: true, message: '路由名称必填' }],
+  path: [{ required: true, message: '路由地址必填' }],
+  url: [{ required: true, message: '组件路径必填' }],
+  type: [{ required: true, message: '资源类型必填' }],
+  icon: [{ required: true, message: '菜单图标必填' }],
+  orderNum: [{ required: true, message: '菜单排序必填' }],
 }
 const doConfirm = () => {
   formRef.value
@@ -182,12 +228,18 @@ const doConfirm = () => {
       }
     })
     .catch(() => {})
-    .finally(() => fetchData())
+    .finally(() => {
+      getTreeData()
+      fetchData()
+    })
 }
 
 const doCancel = () => {
   formRef.value.resetFields()
   handleCancel()
+}
+const onNodeSelect = (value: any, node: any) => {
+  formState.parentName = node.title
 }
 // endregion
 
@@ -205,10 +257,10 @@ const pagination = computed(() => {
   }
 })
 const fetchData = async () => {
-  await listMenuVoByPage({ ...searchParams }).then((res) => {
+  await getMenuList({ ...searchParams }).then((res) => {
     if (res.data.code === 0 && res.data.data) {
-      dataGrid.value = res.data.data.records ?? []
-      total.value = Number(res.data.data.total) ?? 0
+      dataGrid.value = res.data.data ?? []
+      total.value = Number(res.data.data) ?? 0
     } else {
       message.error('获取数据失败，' + res.data.message)
     }
@@ -229,6 +281,7 @@ const doDelete = async (id: any) => {
       if (res.data.code === 0) {
         message.success('删除成功！')
         fetchData()
+        getTreeData()
       } else {
         message.error('删除失败')
       }
@@ -236,6 +289,91 @@ const doDelete = async (id: any) => {
   }
 }
 // endregion
+
+const columns = [
+  {
+    title: '菜单名称',
+    dataIndex: 'title',
+    key: 'title',
+    align: 'center',
+    width: 120,
+  },
+  {
+    title: '资源类型',
+    dataIndex: 'type',
+    key: 'type',
+    align: 'center',
+    width: 80,
+  },
+  {
+    title: '资源图标',
+    dataIndex: 'icon',
+    key: 'icon',
+    align: 'center',
+    width: 80,
+  },
+  {
+    title: '路由名称',
+    dataIndex: 'name',
+    key: 'name',
+    align: 'center',
+    width: 120,
+  },
+  {
+    title: '路由地址',
+    dataIndex: 'path',
+    key: 'path',
+    align: 'center',
+    width: 150,
+  },
+  {
+    title: '权限字段',
+    dataIndex: 'code',
+    key: 'code',
+    align: 'center',
+    width: 150,
+  },
+  {
+    title: '组件路径',
+    dataIndex: 'url',
+    key: 'url',
+    align: 'center',
+    ellipsis: true,
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    key: 'createTime',
+    align: 'center',
+    width: 150,
+  },
+  {
+    title: '更新时间',
+    dataIndex: 'updateTime',
+    key: 'updateTime',
+    align: 'center',
+    width: 150,
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    key: 'action',
+    align: 'center',
+    width: 120,
+  },
+] as any[]
+
+const Colors = reactive({
+  [0]: 'green',
+  [1]: 'blue',
+  [2]: 'orange',
+}) as any
+
+const Labels = reactive({
+  [0]: '目录',
+  [1]: '菜单',
+  [2]: '按钮',
+}) as any
 
 onMounted(() => {
   nextTick(() => {
