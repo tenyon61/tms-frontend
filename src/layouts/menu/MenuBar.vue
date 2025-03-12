@@ -25,7 +25,7 @@ const routeConfig = [
     name: 'Dashboard',
     redirect: '/dashboard/workplace',
     meta: {
-      label: '控制台',
+      title: '控制台',
       icon: 'ri:dashboard-3-line',
       roles: ['sys:manage'],
     },
@@ -33,7 +33,7 @@ const routeConfig = [
       {
         path: '/dashboard/workplace',
         meta: {
-          label: '工作台',
+          title: '工作台',
           icon: 'ri:dashboard-line',
           roles: ['sys:manage'],
         },
@@ -45,7 +45,7 @@ const routeConfig = [
     name: 'System',
     redirect: '/system/user',
     meta: {
-      label: '系统管理',
+      title: '系统管理',
       icon: 'ri:settings-3-line',
       roles: ['sys:manage'],
     },
@@ -54,7 +54,7 @@ const routeConfig = [
         path: '/system/userlist',
         name: 'userManage',
         meta: {
-          label: '用户管理',
+          title: '用户管理',
           icon: 'ri:user-line',
           roles: ['sys:user'],
         },
@@ -63,7 +63,7 @@ const routeConfig = [
         path: '/system/rolelist',
         name: 'roleManage',
         meta: {
-          label: '角色管理',
+          title: '角色管理',
           icon: 'ri:vip-crown-2-line',
           roles: ['sys:role'],
         },
@@ -72,7 +72,7 @@ const routeConfig = [
         path: '/system/menulist',
         name: 'menuManage',
         meta: {
-          label: '菜单管理',
+          title: '菜单管理',
           icon: 'ri:menu-line',
           roles: ['sys:menu'],
         },

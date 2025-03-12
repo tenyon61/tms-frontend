@@ -22,7 +22,7 @@ export const convertRoutesToItems = (routes: any) => {
   return routes.map((route: any) => {
     const { path, name, meta = {}, children } = route
     return getItem(
-      meta.label || name,
+      meta.title || name,
       path,
       h(Icon, { icon: meta.icon }),
       children?.length ? convertRoutesToItems(children) : undefined,
