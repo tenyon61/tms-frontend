@@ -132,7 +132,6 @@ import sysConfirm from '@/utils/confirmUtil.ts'
 import dayjs from 'dayjs'
 import { Icon } from '@iconify/vue'
 import { reactive } from 'vue'
-import SysMenuVO = API.SysMenuVO
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
@@ -166,7 +165,7 @@ const plainOptions = [
   { label: '菜单', value: 1 },
   { label: '按钮', value: 2 },
 ]
-const treeData = ref<SysMenuVO[]>([])
+const treeData = ref<API.SysMenu[]>([])
 const getTreeData = async () => {
   await getParentMenuList().then((res) => {
     if (res.data.code === 0) {
@@ -181,7 +180,7 @@ const doAdd = () => {
   modal.height = 260
   showModal()
 }
-const doEdit = async (record: API.SysMenuVO) => {
+const doEdit = async (record: API.SysMenu) => {
   tags.value = '1'
   modal.title = '修改'
   modal.width = 550

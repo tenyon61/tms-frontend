@@ -14,7 +14,7 @@ declare namespace API {
   }
 
   type AssignTreeVO = {
-    menuList?: SysMenuVO[]
+    menuList?: SysMenu[]
     checkList?: Record<string, any>[]
   }
 
@@ -53,11 +53,11 @@ declare namespace API {
     message?: string
   }
 
-  type BaseResponseListSysMenuVO = {
+  type BaseResponseListSysMenu = {
     /** 响应代码 */
     code?: number
     /** 响应内容 */
-    data?: SysMenuVO[]
+    data?: SysMenu[]
     /** 响应消息 */
     message?: string
   }
@@ -368,6 +368,25 @@ declare namespace API {
     type?: string
     /** 备注 */
     remark?: string
+  }
+
+  type SysMenu = {
+    id?: number
+    parentId?: number
+    title?: string
+    code?: string
+    name?: string
+    path?: string
+    url?: string
+    type?: number
+    icon?: string
+    parentName?: string
+    orderNum?: number
+    createTime?: string
+    updateTime?: string
+    children?: SysMenu[]
+    value?: number
+    label?: string
   }
 
   type SysMenuVO = {

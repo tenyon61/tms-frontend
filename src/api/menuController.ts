@@ -18,7 +18,7 @@ export async function addMenu(body: API.MenuAddRequest, options?: { [key: string
 export async function deleteMenu(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.deleteMenuParams,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   const { id: param0, ...queryParams } = params
   return request<API.BaseResponseBoolean>(`/api/menu/delete/${param0}`, {
@@ -30,7 +30,7 @@ export async function deleteMenu(
 
 /** 获取菜单树 GET /api/menu/getMenuList */
 export async function getMenuList(options?: { [key: string]: any }) {
-  return request<API.BaseResponseListSysMenuVO>('/api/menu/getMenuList', {
+  return request<API.BaseResponseListSysMenu>('/api/menu/getMenuList', {
     method: 'GET',
     ...(options || {}),
   })
@@ -38,7 +38,7 @@ export async function getMenuList(options?: { [key: string]: any }) {
 
 /** 获取上级菜单树 GET /api/menu/getParentMenuList */
 export async function getParentMenuList(options?: { [key: string]: any }) {
-  return request<API.BaseResponseListSysMenuVO>('/api/menu/getParentMenuList', {
+  return request<API.BaseResponseListSysMenu>('/api/menu/getParentMenuList', {
     method: 'GET',
     ...(options || {}),
   })
@@ -47,7 +47,7 @@ export async function getParentMenuList(options?: { [key: string]: any }) {
 /** 分页获取菜单 POST /api/menu/listPageVO */
 export async function listMenuVoByPage(
   body: API.MenuQueryRequest,
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.BaseResponsePageSysMenuVO>('/api/menu/listPageVO', {
     method: 'POST',
