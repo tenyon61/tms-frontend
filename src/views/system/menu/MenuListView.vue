@@ -9,12 +9,13 @@
     </a-space>
     <!-- 列表 -->
     <a-table
+      v-if="dataGrid && dataGrid.length > 0"
       :data-source="dataGrid"
       :columns="columns"
       :table-layout="'fixed'"
-      :pagination="pagination"
+      :pagination="false"
+      :defaultExpandAllRows="true"
       :scroll="{ y: tableHeight }"
-      @change="doTableChange"
       size="middle"
       bordered
     >
@@ -124,16 +125,14 @@ import {
   deleteMenu,
   getMenuList,
   getParentMenuList,
-  listMenuVoByPage,
   updateMenu,
 } from '@/api/menuController.ts'
 import { message } from 'ant-design-vue'
 import sysConfirm from '@/utils/confirmUtil.ts'
 import dayjs from 'dayjs'
-import SysMenuVO = API.SysMenuVO
 import { Icon } from '@iconify/vue'
 import { reactive } from 'vue'
-import ACCESS_ENUM from '@/type/baseEnum.ts'
+import SysMenuVO = API.SysMenuVO
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
@@ -247,15 +246,6 @@ const onNodeSelect = (value: any, node: any) => {
 const tableHeight = ref(0)
 const dataGrid = ref<API.SysMenuVO[]>([])
 const total = ref(0)
-const pagination = computed(() => {
-  return {
-    current: searchParams.current,
-    pageSize: searchParams.pageSize,
-    total: total.value,
-    showSizeChanger: true,
-    showTotal: (total: number) => `共 ${total} 条`,
-  }
-})
 const fetchData = async () => {
   await getMenuList({ ...searchParams }).then((res) => {
     if (res.data.code === 0 && res.data.data) {
@@ -265,11 +255,6 @@ const fetchData = async () => {
       message.error('获取数据失败，' + res.data.message)
     }
   })
-}
-const doTableChange = (page: any) => {
-  searchParams.current = page.current
-  searchParams.pageSize = page.pageSize
-  fetchData()
 }
 const doDelete = async (id: any) => {
   if (!id) {
@@ -324,14 +309,14 @@ const columns = [
     dataIndex: 'path',
     key: 'path',
     align: 'center',
-    width: 150,
+    width: 160,
   },
   {
     title: '权限字段',
     dataIndex: 'code',
     key: 'code',
     align: 'center',
-    width: 150,
+    width: 160,
   },
   {
     title: '组件路径',

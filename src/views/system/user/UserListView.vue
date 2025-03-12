@@ -29,9 +29,8 @@
       :data-source="dataGrid"
       :columns="columns"
       :table-layout="'fixed'"
-      :pagination="pagination"
+      :pagination="false"
       :scroll="{ y: tableHeight }"
-      @change="doTableChange"
       size="middle"
       bordered
     >

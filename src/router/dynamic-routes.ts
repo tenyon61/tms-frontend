@@ -15,6 +15,7 @@ const dynamicRoutes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '/dashboard/workplace',
+        name: 'Workplace',
         component: () => import('@/views/dashboard/workplace/WorkPlaceView.vue'),
         meta: {
           label: '工作台',
