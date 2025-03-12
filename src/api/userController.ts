@@ -43,6 +43,21 @@ export async function getUserById(
   })
 }
 
+/** 获取分配菜单树 POST /api/user/getAssignTree */
+export async function getAssignTreeVo(
+  body: API.AssignTreeRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseAssignTreeVO>('/api/user/getAssignTree', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** 获取用户角色列表 GET /api/user/getUserRoleList */
 export async function getUserRoleList(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)

@@ -14,6 +14,21 @@ export async function addRole(body: API.RoleAddRequest, options?: { [key: string
   })
 }
 
+/** 分配角色资源 POST /api/role/assignRoleMenu */
+export async function assignRoleMenu(
+  body: API.AssignRoleMenuRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean>('/api/role/assignRoleMenu', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  })
+}
+
 /** 删除角色 DELETE /api/role/delete/${param0} */
 export async function deleteRole(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)

@@ -56,6 +56,7 @@
         <template v-else-if="column.key === 'action'">
           <a-space class="flex-center">
             <div class="i-ri:edit-box-line color-blue" @click="doEdit(record)"></div>
+            <div class="i-ri:settings-2-line color-black" @click="doAssign(record)"></div>
             <div class="i-ri:delete-bin-6-line color-red" @click="doDelete(record.id)"></div>
           </a-space>
         </template>
@@ -84,6 +85,7 @@
         </a-form>
       </template>
     </sys-modal>
+    <assign-tree-modal ref="assignRef"></assign-tree-modal>
   </div>
 </template>
 
@@ -96,6 +98,7 @@ import dayjs from 'dayjs'
 import SysModal from '@/components/common/SysModal.vue'
 import { ref } from 'vue'
 import sysConfirm from '@/utils/confirmUtil.ts'
+import AssignTreeModal from '@/views/system/menu/component/AssignTreeModal.vue'
 
 const { modal, showModal, handleOk, handleCancel } = useModal()
 
@@ -141,6 +144,12 @@ const doEdit = async (record: API.SysRoleVO) => {
   showModal()
   Object.assign(formState, record)
 }
+
+const assignRef = ref()
+const doAssign = async (record: API.SysRoleVO) => {
+  assignRef.value.doShow(record)
+}
+
 const rules: Record<string, Rule[]> = {
   roleName: [{ required: true, message: '角色名称不能为空' }],
 }

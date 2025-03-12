@@ -1,4 +1,31 @@
 declare namespace API {
+  type AssignRoleMenuRequest = {
+    /** 角色id */
+    roleId: number
+    /** 资源ids */
+    menuIds?: number[]
+  }
+
+  type AssignTreeRequest = {
+    /** 用户id */
+    userId: number
+    /** 角色id */
+    roleId: number
+  }
+
+  type AssignTreeVO = {
+    menuList?: SysMenuVO[]
+    checkList?: Record<string, any>[]
+  }
+
+  type BaseResponseAssignTreeVO = {
+    /** 响应代码 */
+    code?: number
+    data?: AssignTreeVO
+    /** 响应消息 */
+    message?: string
+  }
+
   type BaseResponseBoolean = {
     /** 响应代码 */
     code?: number
