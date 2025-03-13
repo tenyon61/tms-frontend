@@ -53,6 +53,15 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseListRouterVO = {
+    /** 响应代码 */
+    code?: number
+    /** 响应内容 */
+    data?: RouterVO[]
+    /** 响应消息 */
+    message?: string
+  }
+
   type BaseResponseListSysMenu = {
     /** 响应代码 */
     code?: number
@@ -111,6 +120,14 @@ declare namespace API {
     message?: string
   }
 
+  type BaseResponseSingleUserVO = {
+    /** 响应代码 */
+    code?: number
+    data?: SingleUserVO
+    /** 响应消息 */
+    message?: string
+  }
+
   type BaseResponseSysUser = {
     /** 响应代码 */
     code?: number
@@ -139,6 +156,14 @@ declare namespace API {
     id: number
   }
 
+  type getAuthMenuListParams = {
+    userId: number
+  }
+
+  type getSingleUserParams = {
+    id: number
+  }
+
   type getUserByIdParams = {
     id: number
   }
@@ -158,18 +183,8 @@ declare namespace API {
     userName?: string
     /** 用户头像 */
     userAvatar?: string
-    /** 用户简介 */
-    userProfile?: string
-    /** 用户角色 */
-    userRole?: string
-    /** 会员编号 */
-    vipNumber?: number
-    /** 编辑时间 */
-    editTime?: string
-    /** 创建时间 */
-    createTime?: string
-    /** 更新时间 */
-    updateTime?: string
+    /** 令牌 */
+    token?: string
   }
 
   type MenuAddRequest = {
@@ -255,6 +270,15 @@ declare namespace API {
     value?: number
     /** itemLable */
     label?: string
+  }
+
+  type Meta = {
+    /** 标题 */
+    title?: string
+    /** 图标 */
+    icon?: string
+    /** 所需角色s */
+    roles?: Record<string, any>[]
   }
 
   type OrderItem = {
@@ -368,6 +392,29 @@ declare namespace API {
     type?: string
     /** 备注 */
     remark?: string
+  }
+
+  type RouterVO = {
+    /** 路由名称 */
+    name?: string
+    /** 路由地址 */
+    path?: string
+    /** 组件路径 */
+    component?: string
+    /** 重定向地址 */
+    redirect?: string
+    meta?: Meta
+    /** 子路由 */
+    children?: RouterVO[]
+  }
+
+  type SingleUserVO = {
+    /** id */
+    id?: number
+    /** 用户名称 */
+    userName?: string
+    /** 权限集合 */
+    permissions?: Record<string, any>[]
   }
 
   type SysMenu = {

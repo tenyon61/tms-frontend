@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export type Tab = {
-  label: string
+  title: string
   path: string
   closable: boolean
 }
@@ -13,7 +13,7 @@ export type TabState = {
 export const useLayoutStore = defineStore(
   'layoutStore',
   () => {
-    const tabList = ref<Tab[]>([{ path: '/dashboard/workplace', label: '工作台', closable: false }])
+    const tabList = ref<Tab[]>([{ path: '/dashboard/workplace', title: '工作台', closable: false }])
     const addTab = (tab: Tab) => {
       if (tabList.value.some((item) => item.path === tab.path)) return
       tabList.value.push(tab)
@@ -26,7 +26,7 @@ export const useLayoutStore = defineStore(
   },
   {
     persist: {
-      key: 'layoutStore',
+      key: 'layout',
     },
   },
 )

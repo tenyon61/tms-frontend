@@ -10,7 +10,7 @@
       <a-tab-pane
         v-for="pane in panes"
         :key="pane.path"
-        :tab="pane.label"
+        :tab="pane.title"
         :closable="pane.closable"
       ></a-tab-pane>
     </a-tabs>
@@ -63,7 +63,7 @@ const addTab = () => {
   if (path === '/dashboard/workplace') return
   const tab: Tab = {
     path: path,
-    label: meta.label as string,
+    title: meta.title as string,
     closable: true,
   }
   layoutStore.addTab(tab)

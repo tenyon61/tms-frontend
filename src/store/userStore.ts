@@ -3,32 +3,41 @@ import { defineStore } from 'pinia'
 import ACCESS_ENUM from '@/type/baseEnum.ts'
 import { getLoginUser } from '@/api/authController.ts'
 
-export const useUserStore = defineStore('userStore', () => {
-  const loginUser = ref<API.LoginUserVO>({
-    userName: '未登录',
-  })
-
-  /**
-   * 远程获取登录用户信息
-   */
-  async function fetchLoginUser() {
-    await getLoginUser().then((res) => {
-      if (res.data.code === 0 && res.data.data) {
-        loginUser.value = res.data.data
-      } else {
-        loginUser.value = { userRole: ACCESS_ENUM.NOT_LOGIN }
-      }
+export const useUserStore = defineStore(
+  'userStore',
+  () => {
+    const loginUser = ref<API.LoginUserVO>({
+      token: '',
+      userName: '未登录',
     })
-  }
 
-  /**
-   * 单独设置用户信息
-   *
-   * @param newLoginUser
-   */
-  function setLoginUser(newLoginUser: any) {
-    loginUser.value = newLoginUser
-  }
+    /**
+     * 远程获取登录用户信息
+     */
+    async function fetchLoginUser() {
+      await getLoginUser().then((res) => {
+        if (res.data.code === 0 && res.data.data) {
+          loginUser.value = res.data.data
+        } else {
+          loginUser.value = { userRole: ACCESS_ENUM.NOT_LOGIN }
+        }
+      })
+    }
 
-  return { loginUser, fetchLoginUser, setLoginUser }
-})
+    /**
+     * 单独设置用户信息
+     *
+     * @param newLoginUser
+     */
+    function setLoginUser(newLoginUser: any) {
+      loginUser.value = newLoginUser
+    }
+
+    return { loginUser, fetchLoginUser, setLoginUser }
+  },
+  {
+    persist: {
+      key: 'user',
+    },
+  },
+)

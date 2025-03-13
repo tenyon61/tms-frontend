@@ -17,7 +17,7 @@ export async function addRole(body: API.RoleAddRequest, options?: { [key: string
 /** 分配角色资源 POST /api/role/assignRoleMenu */
 export async function assignRoleMenu(
   body: API.AssignRoleMenuRequest,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseBoolean>('/api/role/assignRoleMenu', {
     method: 'POST',
@@ -33,7 +33,7 @@ export async function assignRoleMenu(
 export async function deleteRole(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.deleteRoleParams,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params
   return request<API.BaseResponseBoolean>(`/api/role/delete/${param0}`, {
@@ -46,7 +46,7 @@ export async function deleteRole(
 /** 分页获取角色 POST /api/role/listPageVO */
 export async function listRoleVoByPage(
   body: API.RoleQueryRequest,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponsePageSysRoleVO>('/api/role/listPageVO', {
     method: 'POST',

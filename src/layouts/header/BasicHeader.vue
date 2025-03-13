@@ -53,6 +53,7 @@ import { logout } from '@/api/authController.ts'
 import { message } from 'ant-design-vue'
 import BreadCrumb from '@/layouts/header/BreadCrumb.vue'
 import { Icon } from '@iconify/vue'
+import sysConfirm from '@/utils/confirmUtil.ts'
 
 const userStore = useUserStore()
 onMounted(() => {
@@ -60,15 +61,20 @@ onMounted(() => {
 })
 const doDropItemClick = async (key: string) => {
   if (key === 'logout') {
-    const res = await logout()
-    if (res.data.code === 0) {
-      userStore.setLoginUser({
-        userName: '未登录',
+    const confirm = await sysConfirm('确认退出？')
+    if (confirm) {
+      await logout().then(async (res) => {
+        if (res.data.code === 0) {
+          userStore.setLoginUser({
+            userName: '未登录',
+          })
+          localStorage.clear()
+          message.success('退出登录成功')
+          await router.push('/login')
+        } else {
+          message.error('退出登录失败，' + res.data.message)
+        }
       })
-      message.success('退出登录成功')
-      await router.push('/login')
-    } else {
-      message.error('退出登录失败，' + res.data.message)
     }
   }
   if (key === 'profile') {

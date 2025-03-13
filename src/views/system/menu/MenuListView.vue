@@ -9,9 +9,11 @@
     </a-space>
     <!-- 列表 -->
     <a-table
+      class="tree-table"
       v-if="dataGrid && dataGrid.length > 0"
       :data-source="dataGrid"
       :columns="columns"
+      :expand-icon="expandIcon"
       :table-layout="'fixed'"
       :pagination="false"
       :defaultExpandAllRows="true"
@@ -270,6 +272,30 @@ const doDelete = async (id: any) => {
         message.error('删除失败')
       }
     })
+  }
+}
+const expandIcon = (props: any) => {
+  const { expanded, onExpand, record } = props
+  if (record && record.children.length > 0) {
+    if (expanded) {
+      return h(Icon, {
+        icon: 'ant-design:minus-square-outlined',
+        inline: true,
+        color: 'pink',
+        onClick: (event: Event) => {
+          onExpand(record, event)
+        },
+      })
+    } else {
+      return h(Icon, {
+        icon: 'ant-design:plus-square-outlined',
+        inline: true,
+        color: 'purple',
+        onClick: (event: Event) => {
+          onExpand(record, event)
+        },
+      })
+    }
   }
 }
 // endregion

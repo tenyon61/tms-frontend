@@ -18,7 +18,7 @@ export async function addUser(body: API.UserAddRequest, options?: { [key: string
 export async function deleteUser(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.deleteUserParams,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params
   return request<API.BaseResponseBoolean>(`/api/user/delete/${param0}`, {
@@ -32,7 +32,7 @@ export async function deleteUser(
 export async function getUserById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getUserByIdParams,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseSysUser>('/api/user/get', {
     method: 'GET',
@@ -46,7 +46,7 @@ export async function getUserById(
 /** 获取分配菜单树 POST /api/user/getAssignTree */
 export async function getAssignTreeVo(
   body: API.AssignTreeRequest,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseAssignTreeVO>('/api/user/getAssignTree', {
     method: 'POST',
@@ -58,11 +58,26 @@ export async function getAssignTreeVo(
   })
 }
 
+/** 获取单用户信息 GET /api/user/getUserInfo */
+export async function getSingleUser(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getSingleUserParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseSingleUserVO>('/api/user/getUserInfo', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  })
+}
+
 /** 获取用户角色列表 GET /api/user/getUserRoleList */
 export async function getUserRoleList(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getUserRoleListParams,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseListLong>('/api/user/getUserRoleList', {
     method: 'GET',
@@ -77,7 +92,7 @@ export async function getUserRoleList(
 export async function getUserVoById(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getUserVOByIdParams,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseSysUserVO>('/api/user/getVO', {
     method: 'GET',
@@ -103,7 +118,7 @@ export async function listUserByPage(body: API.UserQueryRequest, options?: { [ke
 /** 分页获取用户封装列表（仅管理员） POST /api/user/listPageVO */
 export async function listUserVoByPage(
   body: API.UserQueryRequest,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponsePageSysUserVO>('/api/user/listPageVO', {
     method: 'POST',
@@ -119,7 +134,7 @@ export async function listUserVoByPage(
 export async function resetPwd(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.resetPwdParams,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params
   return request<API.BaseResponseBoolean>(`/api/user/resetPwd/${param0}`, {
@@ -144,7 +159,7 @@ export async function updateUser(body: API.UserUpdateRequest, options?: { [key: 
 /** 更新个人信息 PUT /api/user/updateMy */
 export async function updateMyUser(
   body: API.UserUpdateMyRequest,
-  options?: { [key: string]: any }
+  options?: { [key: string]: any },
 ) {
   return request<API.BaseResponseBoolean>('/api/user/updateMy', {
     method: 'PUT',

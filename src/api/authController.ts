@@ -2,6 +2,21 @@
 /* eslint-disable */
 import request from '@/request.ts'
 
+/** 获取权限路由菜单 GET /api/auth/getAuthMenuList */
+export async function getAuthMenuList(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getAuthMenuListParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseListRouterVO>('/api/auth/getAuthMenuList', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  })
+}
+
 /** 获取当前登录用户 GET /api/auth/getLoginUser */
 export async function getLoginUser(options?: { [key: string]: any }) {
   return request<API.BaseResponseLoginUserVO>('/api/auth/getLoginUser', {
