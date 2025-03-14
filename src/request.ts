@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
+import { useUserStore } from '@/store/userStore.ts'
 
 const myAxios = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,
@@ -10,6 +11,11 @@ const myAxios = axios.create({
 // Add a request interceptor
 myAxios.interceptors.request.use(
   function (config) {
+    const userStore = useUserStore()
+    const token = userStore.loginUser?.token
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     // Do something before request is sent
     return config
   },
