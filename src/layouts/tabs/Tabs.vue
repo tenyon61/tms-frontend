@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Tab, useLayoutStore } from '@/store/layoutStore.ts'
+import { Tab, useLayoutStore } from '@/store/layout.ts'
 
 const layoutStore = useLayoutStore()
 const panes = computed(() => {

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
-import { useUserStore } from '@/store/userStore.ts'
+import { useUserStore } from '@/store/user.ts'
 
 const myAxios = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL,

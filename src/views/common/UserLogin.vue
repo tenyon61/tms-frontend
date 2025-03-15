@@ -27,7 +27,7 @@
 </template>
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/store/userStore.ts'
+import { useUserStore } from '@/store/user.ts'
 import { message } from 'ant-design-vue'
 import { login } from '@/api/authController.ts'
 

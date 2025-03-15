@@ -46,7 +46,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useUserStore } from '@/store/userStore.ts'
+import { useUserStore } from '@/store/user.ts'
 import notLoginUser from '@/assets/notLogin.png'
 import router from '@/router'
 import { logout } from '@/api/authController.ts'

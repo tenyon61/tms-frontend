@@ -1,5 +1,5 @@
 import router from '@/router'
-import { useUserStore } from '@/store/userStore.ts'
+import { useUserStore } from '@/store/user.ts'
 import ACCESS_ENUM from '@/type/baseEnum.ts'
 import checkAccess from '@/composables/access/checkAccess.ts'
 

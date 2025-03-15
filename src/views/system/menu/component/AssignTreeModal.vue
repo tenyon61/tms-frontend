@@ -26,7 +26,7 @@
 import SysModal from '@/components/common/SysModal.vue'
 import useModal from '@/composables/modal/useModal.ts'
 import { getAssignTreeVo } from '@/api/userController.ts'
-import { useUserStore } from '@/store/userStore.ts'
+import { useUserStore } from '@/store/user.ts'
 import { message, TreeProps } from 'ant-design-vue'
 import { assignRoleMenu } from '@/api/roleController.ts'
 
