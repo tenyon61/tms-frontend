@@ -26,7 +26,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user.ts'
 import { message } from 'ant-design-vue'
 import { login } from '@/api/authController.ts'
@@ -39,6 +39,7 @@ const formState: API.UserLoginRequest = reactive({
   userPassword: '',
 })
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 
 /**
@@ -51,8 +52,9 @@ const handleSubmit = async (values: any) => {
   if (res.data.code === 0 && res.data.data) {
     await userStore.fetchLoginUser()
     message.success('登录成功')
+    const redirectPath = (route.query.redirect as string) || '/'
     router.push({
-      path: '/',
+      path: redirectPath,
       replace: true,
     })
   } else {

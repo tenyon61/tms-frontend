@@ -58,21 +58,6 @@ export async function getAssignTreeVo(
   })
 }
 
-/** 获取单用户信息 GET /api/user/getUserInfo */
-export async function getSingleUser(
-  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getSingleUserParams,
-  options?: { [key: string]: any },
-) {
-  return request<API.BaseResponseSingleUserVO>('/api/user/getUserInfo', {
-    method: 'GET',
-    params: {
-      ...params,
-    },
-    ...(options || {}),
-  })
-}
-
 /** 获取用户角色列表 GET /api/user/getUserRoleList */
 export async function getUserRoleList(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)

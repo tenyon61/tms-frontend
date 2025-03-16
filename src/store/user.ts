@@ -1,7 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { getLoginUser } from '@/api/authController.ts'
-import { getSingleUser } from '@/api/userController.ts'
 
 export const useUserStore = defineStore(
   'userStore',
@@ -10,9 +9,8 @@ export const useUserStore = defineStore(
       token: '',
       id: -1,
       userName: '未登录',
+      permissions: [],
     })
-
-    const codeList = ref([])
 
     /**
      * 远程获取登录用户信息
@@ -21,22 +19,8 @@ export const useUserStore = defineStore(
       await getLoginUser().then((res) => {
         if (res.data.code === 0 && res.data.data) {
           loginUser.value = res.data.data
+          console.log(loginUser.value)
         }
-      })
-    }
-
-    const getUserInfo = () => {
-      return new Promise((resolve, reject) => {
-        getSingleUser({ id: loginUser.value.id ?? -1 })
-          .then((res) => {
-            if (res.data.code === 0 && res.data.data) {
-              codeList.value = (res.data?.data as any) ?? []
-            }
-            resolve(codeList.value)
-          })
-          .catch((err) => {
-            reject(err)
-          })
       })
     }
 
@@ -49,7 +33,7 @@ export const useUserStore = defineStore(
       loginUser.value = newLoginUser
     }
 
-    return { loginUser, codeList, fetchLoginUser, getUserInfo, setLoginUser }
+    return { loginUser, fetchLoginUser, setLoginUser }
   },
   {
     persist: {

@@ -120,14 +120,6 @@ declare namespace API {
     message?: string
   }
 
-  type BaseResponseSingleUserVO = {
-    /** 响应代码 */
-    code?: number
-    data?: SingleUserVO
-    /** 响应消息 */
-    message?: string
-  }
-
   type BaseResponseSysUser = {
     /** 响应代码 */
     code?: number
@@ -160,10 +152,6 @@ declare namespace API {
     userId: number
   }
 
-  type getSingleUserParams = {
-    id: number
-  }
-
   type getUserByIdParams = {
     id: number
   }
@@ -185,6 +173,8 @@ declare namespace API {
     userAvatar?: string
     /** 令牌 */
     token?: string
+    /** 权限集合 */
+    permissions?: string[]
   }
 
   type MenuAddRequest = {
@@ -406,15 +396,6 @@ declare namespace API {
     meta?: Meta
     /** 子路由 */
     children?: RouterVO[]
-  }
-
-  type SingleUserVO = {
-    /** id */
-    id?: number
-    /** 用户名称 */
-    userName?: string
-    /** 权限集合 */
-    permissions?: Record<string, any>[]
   }
 
   type SysMenu = {

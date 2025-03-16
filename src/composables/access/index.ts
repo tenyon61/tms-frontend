@@ -7,7 +7,6 @@ const whiteList = ['/login', '/'] // 静态白名单路由
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
   const menuStore = useMenuStore()
-  console.log(to.path)
   // 从 localStorage 同步状态（确保 Pinia 和 localStorage 一致）
   const user = JSON.parse(localStorage.getItem('user') || '{}')
   // 获取token
@@ -33,15 +32,12 @@ router.beforeEach(async (to, from, next) => {
   // 2. 处理动态菜单加载
   try {
     // 如果菜单未加载（首次进入）
-    if (!menuStore.isLoaded) {
+    if (menuStore.menuList.length <= 1) {
       // 先获取用户信息
-      await userStore.getUserInfo()
+      await userStore.fetchLoginUser()
 
       // 动态添加路由（需确保 getMenuList 内部调用了 router.addRoute）
       await menuStore.getMenuList(router, userStore.loginUser.id ?? -1)
-
-      // 标记菜单已加载
-      menuStore.isLoaded = true
 
       // 重新触发导航（解决动态路由未注册的问题）
       next({ ...to, replace: true })
