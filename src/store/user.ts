@@ -1,6 +1,5 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import ACCESS_ENUM from '@/type/baseEnum.ts'
 import { getLoginUser } from '@/api/authController.ts'
 import { getSingleUser } from '@/api/userController.ts'
 
@@ -18,7 +17,7 @@ export const useUserStore = defineStore(
     /**
      * 远程获取登录用户信息
      */
-    async function fetchLoginUser() {
+    const fetchLoginUser = async () => {
       await getLoginUser().then((res) => {
         if (res.data.code === 0 && res.data.data) {
           loginUser.value = res.data.data
@@ -26,11 +25,18 @@ export const useUserStore = defineStore(
       })
     }
 
-    const getUserInfo = async () => {
-      await getSingleUser({ id: loginUser.value.id ?? -1 }).then((res) => {
-        if (res.data.code === 0 && res.data.data) {
-          codeList.value = (res.data?.data as any) ?? []
-        }
+    const getUserInfo = () => {
+      return new Promise((resolve, reject) => {
+        getSingleUser({ id: loginUser.value.id ?? -1 })
+          .then((res) => {
+            if (res.data.code === 0 && res.data.data) {
+              codeList.value = (res.data?.data as any) ?? []
+            }
+            resolve(codeList.value)
+          })
+          .catch((err) => {
+            reject(err)
+          })
       })
     }
 
@@ -39,7 +45,7 @@ export const useUserStore = defineStore(
      *
      * @param newLoginUser
      */
-    function setLoginUser(newLoginUser: any) {
+    const setLoginUser = (newLoginUser: any) => {
       loginUser.value = newLoginUser
     }
 
@@ -48,6 +54,7 @@ export const useUserStore = defineStore(
   {
     persist: {
       key: 'user',
+      pick: ['loginUser'],
     },
   },
 )

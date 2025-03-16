@@ -24,4 +24,9 @@ export default [
       title: '登录',
     },
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/error/404.vue'),
+  },
 ] as Array<RouteRecordRaw>
