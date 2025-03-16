@@ -4,7 +4,7 @@ import App from './App.vue'
 import router from '@/router'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-// import '@/composables/access'
+import '@/composables/access'
 import 'virtual:uno.css'
 
 const pinia = createPinia()

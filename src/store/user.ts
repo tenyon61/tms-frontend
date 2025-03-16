@@ -2,14 +2,18 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import ACCESS_ENUM from '@/type/baseEnum.ts'
 import { getLoginUser } from '@/api/authController.ts'
+import { getSingleUser } from '@/api/userController.ts'
 
 export const useUserStore = defineStore(
   'userStore',
   () => {
     const loginUser = ref<API.LoginUserVO>({
       token: '',
+      id: -1,
       userName: '未登录',
     })
+
+    const codeList = ref([])
 
     /**
      * 远程获取登录用户信息
@@ -18,8 +22,14 @@ export const useUserStore = defineStore(
       await getLoginUser().then((res) => {
         if (res.data.code === 0 && res.data.data) {
           loginUser.value = res.data.data
-        } else {
-          loginUser.value = { userRole: ACCESS_ENUM.NOT_LOGIN }
+        }
+      })
+    }
+
+    const getUserInfo = async () => {
+      await getSingleUser({ id: loginUser.value.id ?? -1 }).then((res) => {
+        if (res.data.code === 0 && res.data.data) {
+          codeList.value = (res.data?.data as any) ?? []
         }
       })
     }
@@ -33,7 +43,7 @@ export const useUserStore = defineStore(
       loginUser.value = newLoginUser
     }
 
-    return { loginUser, fetchLoginUser, setLoginUser }
+    return { loginUser, codeList, fetchLoginUser, getUserInfo, setLoginUser }
   },
   {
     persist: {

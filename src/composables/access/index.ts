@@ -1,33 +1,43 @@
 import router from '@/router'
 import { useUserStore } from '@/store/user.ts'
-import ACCESS_ENUM from '@/type/baseEnum.ts'
-import checkAccess from '@/composables/access/checkAccess.ts'
+import { useMenuStore } from '@/store/menu.ts'
+
+const whiteList = ['/', '/login']
 
 // 进入页面前，进行权限校验
 router.beforeEach(async (to, _, next) => {
-  // 获取当前登录用户
   const userStore = useUserStore()
-  let loginUser = userStore.loginUser
-  // 如果之前没有尝试获取过登录用户信息，才自动登录
-  if (!loginUser || !loginUser.userRole) {
-    // 加 await 是为了等待用户登录成功并获取到值后，再执行后续操作
-    await userStore.fetchLoginUser()
-    loginUser = userStore.loginUser
-  }
-
-  // 当前页面需要的权限
-  const needAccess = JSON.stringify(to.meta?.roles) ?? ACCESS_ENUM.NOT_LOGIN
-  // 要跳转的页面必须登录
-  if (needAccess !== ACCESS_ENUM.NOT_LOGIN) {
-    // 如果没登录，跳转到登录页面
-    if (!loginUser || !loginUser.userRole || loginUser.userRole === ACCESS_ENUM.NOT_LOGIN) {
-      next(`/login?redirect=${to.fullPath}`)
-    }
-    // 如果已经登录了，判断权限是否足够，如果不足，跳转到无权限页面
-    if (!checkAccess(loginUser, needAccess)) {
-      next('/noAuth')
-      return
-    }
-  }
+  const menuStore = useMenuStore()
+  const token = userStore.loginUser?.token
+  await menuStore.getMenuList(router, 1)
+  console.log('全部路由', router.getRoutes())
   next()
+  // if (token) {
+  //   if (to.path === '/login' || to.path === '/') {
+  //     next()
+  //   } else {
+  //     // 鉴权
+  //     console.log(userStore.codeList)
+  //     const hasRole = userStore.codeList.length > 0
+  //     if (hasRole) {
+  //       next()
+  //     } else {
+  //       try {
+  //         console.log(to.path)
+  //         await userStore.getUserInfo()
+  //         await menuStore.getMenuList(router, userStore.loginUser?.id ?? -1)
+  //         next({ ...to, replace: true })
+  //       } catch (e) {
+  //         localStorage.clear()
+  //         next({ path: '/login' })
+  //       }
+  //     }
+  //   }
+  // } else {
+  //   if (whiteList.indexOf(to.path) !== -1) {
+  //     next()
+  //   } else {
+  //     next({ path: `/login?redirect=${to.fullPath}` })
+  //   }
+  // }
 })
